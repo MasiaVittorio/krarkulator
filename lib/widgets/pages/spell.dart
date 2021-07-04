@@ -1,5 +1,5 @@
 import 'package:krarkulator/everything.dart';
-
+import 'resources/generic_collapsed.dart';
 
 class SpellCollapsed extends StatelessWidget {
 
@@ -8,20 +8,15 @@ class SpellCollapsed extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final stage = Stage.of<KrPage,dynamic>(context)!;
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: SidereusScrollPhysics(
-        alwaysScrollable: true,
-        bottomBounce: true,
-        topBounce: true,
-        bottomBounceCallback: () => stage.mainPagesController.goToPage(KrPage.spell),
-        topBounceCallback: () => stage.mainPagesController.goToPage(KrPage.spell),
+    return BodyCollapsedElement(
+      page: KrPage.spell,
+      title: "Spell",
+      width: width,
+      child: const SubSection(
+        [Expanded(child: Center(child: Text("collapsed spell"),),),], 
+        mainAxisSize: MainAxisSize.max,
+        margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
       ),
-      child: SubSection([
-        Expanded(child: Container(alignment: Alignment.center, width: width - 24, child: Text("spell collapsed"),),),
-      ], mainAxisSize: MainAxisSize.max, margin: const EdgeInsets.all(12),),
     );
   }
   

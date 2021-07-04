@@ -1,5 +1,5 @@
 import 'package:krarkulator/everything.dart';
-
+import 'resources/generic_collapsed.dart';
 
 class StatusCollapsed extends StatelessWidget {
 
@@ -8,20 +8,15 @@ class StatusCollapsed extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final stage = Stage.of<KrPage,dynamic>(context)!;
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: SidereusScrollPhysics(
-        alwaysScrollable: true,
-        bottomBounce: true,
-        topBounce: true,
-        bottomBounceCallback: () => stage.mainPagesController.goToPage(KrPage.status),
-        topBounceCallback: () => stage.mainPagesController.goToPage(KrPage.status),
+    return BodyCollapsedElement(
+      page: KrPage.status,
+      title: "Status",
+      width: width,
+      child: const SubSection(
+        [Expanded(child: Center(child: Text("collapsed status"),),),], 
+        mainAxisSize: MainAxisSize.max,
+        margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
       ),
-      child: SubSection([
-        Expanded(child: Container(alignment: Alignment.center, width: width - 24, child: Text("status collapsed"),),),
-      ], mainAxisSize: MainAxisSize.max, margin: const EdgeInsets.all(12),),
     );
   }
   

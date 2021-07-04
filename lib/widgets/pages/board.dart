@@ -1,5 +1,5 @@
 import 'package:krarkulator/everything.dart';
-
+import 'resources/all.dart';
 
 class BoardCollapsed extends StatelessWidget {
 
@@ -8,20 +8,29 @@ class BoardCollapsed extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final stage = Stage.of<KrPage,dynamic>(context)!;
+    final logic = Logic.of(context);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: SidereusScrollPhysics(
-        alwaysScrollable: true,
-        bottomBounce: true,
-        topBounce: true,
-        bottomBounceCallback: () => stage.mainPagesController.goToPage(KrPage.board),
-        topBounceCallback: () => stage.mainPagesController.goToPage(KrPage.board),
+    return BodyCollapsedElement(
+      page: KrPage.board,
+      title: "Board",
+      width: width,
+      child: SubSection(
+        [Expanded(child: ExtraButtons(children: [
+          IntToggle(
+            title: "Krarks",
+            variable: logic.krarks,
+            defaultVal: 1,
+          ),
+          IntToggle(
+            title: "Thumbs",
+            variable: logic.thumbs,
+            defaultVal: 0,
+          ),
+        ],),),],
+        mainAxisSize: MainAxisSize.max,
+        margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+        
       ),
-      child: SubSection([
-        Expanded(child: Container(alignment: Alignment.center, width: width - 24, child: Text("board collapsed"),),),
-      ], mainAxisSize: MainAxisSize.max, margin: const EdgeInsets.all(12),),
     );
   }
   
@@ -33,8 +42,45 @@ class BoardExpanded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SubSection([
-      Expanded(child: Center(child: Text("board extended"),),),
-    ], mainAxisSize: MainAxisSize.max, margin: const EdgeInsets.all(12),);
+
+    final logic = Logic.of(context);
+
+    return SubSection(
+      [
+        Expanded(child: ExtraButtons(children: [
+          IntToggle(
+            title: "Krarks",
+            variable: logic.krarks,
+            defaultVal: 1,
+          ),
+          IntToggle(
+            title: "Thumbs",
+            variable: logic.thumbs,
+            defaultVal: 0,
+          ),
+        ],),),
+        Expanded(child: ExtraButtons(children: [
+          IntToggle(
+            title: "Scoundrels",
+            variable: logic.scoundrels,
+            defaultVal: 0,
+          ),
+          IntToggle(
+            title: "Artists",
+            variable: logic.artists,
+            defaultVal: 0,
+          ),
+        ],),),
+        Expanded(child: ExtraButtons(children: [
+          IntToggle(
+            title: "Veyrans",
+            variable: logic.veyrans,
+            defaultVal: 0,
+          ),
+        ],),),
+      ],
+      mainAxisSize: MainAxisSize.max, 
+      margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+    );
   }
 }

@@ -3,6 +3,7 @@ export 'package:flutter/material.dart';
 export 'models/all.dart';
 export 'data/all.dart';
 export 'logic/logic.dart';
+export 'widgets/resources/all.dart';
 
 export 'package:stage/stage.dart';
 export 'package:sid_ui/sid_ui.dart';

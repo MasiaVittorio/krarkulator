@@ -9,13 +9,19 @@ class KrarkStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logic = Logic.of(context);
+    
     return Stage<KrPage,dynamic>(
       body: const KrBody(), 
       collapsedPanel: const KrCollapsed(), 
       extendedPanel: const KrExtended(), 
-      topBarContent: const StageTopBarContent(
+      topBarContent: StageTopBarContent(
         title: const StageTopBarTitle(
           panelTitle: "Settings",
+        ),
+        secondary: IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: logic.reset,
         ),
       ),
       

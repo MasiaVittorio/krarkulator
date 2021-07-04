@@ -17,9 +17,13 @@ class Logic extends BlocBase {
     resolved.dispose();
     krarks.dispose();
     thumbs.dispose();
+    veyrans.dispose();
+    artists.dispose();
+    scoundrels.dispose();
     triggers.dispose();
     automatic.dispose();
     maxCasts.dispose();
+    onNextRefresh.clear();
   }
 
   /// throws a runtime error if the context has no logic
@@ -29,20 +33,79 @@ class Logic extends BlocBase {
 
   late Random rng;
 
-  final BlocVar<Spell> spell = BlocVar(Spell(0,0,1));
-  final BlocVar<Zone> zone = BlocVar(Zone.hand);
+  final BlocVar<Spell> spell = PersistentVar(
+    initVal: Spell(0,0),
+    key: "krarkulator logic blocVar spell",
+    fromJson: (j) => Spell.fromJson(j as Map),
+    toJson: (s) => s.toJson,
+  );
 
-  final BlocVar<int> mana = BlocVar(0);
-  final BlocVar<int> storm = BlocVar(0);
-  final BlocVar<int> resolved = BlocVar(0);
+  final BlocVar<Zone> zone = PersistentVar(
+    initVal: Zone.hand,
+    key: "krarkulator logic blocVar zone",
+    toJson: (z) => z.name,
+    fromJson: (j) => Zones.fromName(j as String),
+  );
 
-  final BlocVar<int> krarks = BlocVar(1);
-  final BlocVar<int> thumbs = BlocVar(0);
+
+  final BlocVar<int> mana = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar mana",
+  );
+
+  final BlocVar<int> treasures = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar treasures",
+  );
+
+  final BlocVar<int> storm = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar storm",
+  );
+
+  final BlocVar<int> resolved = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar resolved",
+  );
+
+
+  final BlocVar<int> krarks = PersistentVar(
+    initVal: 1,
+    key: "krarkulator logic blocVar krarks",
+  );
+  final BlocVar<int> thumbs = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar thumbs",
+  );
+  final BlocVar<int> scoundrels = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar scoundrels",
+  );
+  final BlocVar<int> artists = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar artists",
+  );
+  final BlocVar<int> birgis = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar birgis",
+  );
+  final BlocVar<int> veyrans = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar veyrans",
+  );
 
   final BlocVar<List<ThumbTrigger>> triggers = BlocVar([]);
 
-  final BlocVar<bool> automatic = BlocVar(false);
-  final BlocVar<int> maxCasts = BlocVar(100);
+  final BlocVar<bool> automatic = PersistentVar(
+    initVal: false,
+    key: "krarkulator logic blocVar automatic",
+  );
+
+  final BlocVar<int> maxCasts = PersistentVar(
+    initVal: 100,
+    key: "krarkulator logic blocVar maxCasts",
+  );
+
 
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
@@ -56,6 +119,9 @@ class Logic extends BlocBase {
   }
   void onNextRefreshMana(){
     onNextRefresh["mana"] = mana.refresh;
+  }
+  void onNextRefreshTreasures(){
+    onNextRefresh["treasures"] = treasures.refresh;
   }
   void onNextRefreshTotalStormCount(){
     onNextRefresh["totalStormCount"] = storm.refresh;
@@ -71,7 +137,7 @@ class Logic extends BlocBase {
     triggers.value.clear();
     onNextRefreshTriggers();
 
-    mana.value -= spell.value.cost; 
+    mana.value -= spell.value.manaCost; 
     onNextRefreshMana();
 
     ++storm.value;
@@ -80,13 +146,27 @@ class Logic extends BlocBase {
     zone.value = Zone.stack;
     onNextRefreshZone();
 
-    for(int i=0; i<krarks.value; i++){
+    final int n = howManyTriggers;
+
+    if(birgis.value > 0){
+      mana.value += birgis.value;
+      onNextRefreshMana();
+    }
+
+    if(artists.value > 0){
+      treasures.value += artists.value;
+      onNextRefreshTreasures();
+    }
+
+    for(int i=0; i<n; i++){
       triggers.value.add(ThumbTrigger(thumbs.value, rng));
       onNextRefreshTriggers();
     }
     
     refreshIf(!automatic);
   }
+
+  int get howManyTriggers => krarks.value * (1 + veyrans.value);
 
   void solveTrigger(Flip choice, {required bool automatic}){
     triggers.value.removeLast();
@@ -100,6 +180,15 @@ class Logic extends BlocBase {
     } else {
 
       _solveSpell();
+
+      if(artists.value > 0){
+        treasures.value += artists.value;
+        onNextRefreshTreasures();
+      }
+      if(scoundrels.value > 0){
+        treasures.value += scoundrels.value * 2;
+        onNextRefreshTreasures();
+      }
 
       /// if this was the last trigger, and the spell was never bounced
       /// you should add one resolved spell (the orignal card) to the total 
@@ -120,7 +209,7 @@ class Logic extends BlocBase {
     onNextRefreshTotalResolved();
     /// resolve
     if(spell.value.chance == 1.0 || rng.nextDouble() < spell.value.chance){
-      mana.value += spell.value.product;
+      mana.value += spell.value.manaProduct;
       onNextRefreshMana();
     }
   }
@@ -130,7 +219,7 @@ class Logic extends BlocBase {
     this.storm.set(0);
     this.resolved.set(0);
     this.zone.set(Zone.hand);
-    this.spell.set(Spell(0,0,1));
+    this.spell.set(Spell(0,0));
     this.triggers.value.clear();
     this.triggers.refresh();
   }
@@ -184,7 +273,7 @@ class Logic extends BlocBase {
   }
 
   bool get canCast 
-    => mana.value >= spell.value.cost 
+    => mana.value >= spell.value.manaCost 
     && zone.value == Zone.hand;
 
 
