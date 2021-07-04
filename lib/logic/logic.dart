@@ -215,11 +215,21 @@ class Logic extends BlocBase {
   }
 
   void reset(){
+    this.krarks.set(1);
+    this.thumbs.set(0);
+    this.artists.set(0);
+    this.birgis.set(0);
+    this.scoundrels.set(0);
+    this.veyrans.set(0);
+
+    this.treasures.set(0);
     this.mana.set(0);
     this.storm.set(0);
     this.resolved.set(0);
+
     this.zone.set(Zone.hand);
     this.spell.set(Spell(0,0));
+
     this.triggers.value.clear();
     this.triggers.refresh();
   }

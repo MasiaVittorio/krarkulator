@@ -40,6 +40,26 @@ class Spell {
     "veyransProduced": this.veyransProduced,
     "treasuresProduct": this.treasuresProduct,
   };
+
+  Spell copyWith({
+    int? manaCost, 
+    int? manaProduct, 
+    double? chance,
+    int? veyransProduced,
+    int? artistsProduced,
+    int? krarksProduced,
+    int? scoundrelProduced,
+    int? treasuresProduct,
+  }) => Spell(
+    manaCost ?? this.manaCost,
+    manaProduct ?? this.manaProduct,
+    chance: chance ?? this.chance,
+    veyransProduced: veyransProduced ?? this.veyransProduced,
+    krarksProduced: krarksProduced ?? this.krarksProduced,
+    artistsProduced: artistsProduced ?? this.artistsProduced,
+    scoundrelProduced: scoundrelProduced ?? this.scoundrelProduced,
+    treasuresProduct: treasuresProduct ?? this.treasuresProduct,
+  );
 }
 
 

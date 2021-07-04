@@ -8,6 +8,7 @@ class IntToggle extends StatelessWidget {
     required this.title,
     this.onlyReset = false,
     this.defaultVal = 0,
+    this.noNeedToRebuild = false,
     Key? key ,
   }) : super(key: key);
 
@@ -15,16 +16,19 @@ class IntToggle extends StatelessWidget {
   final String title;
   final bool onlyReset;
   final int defaultVal;
+  final bool noNeedToRebuild;
 
   @override
-  Widget build(BuildContext context) {
-    return variable.build((_, val) => ExtraButton(
-      text: title,
-      icon: null,
-      customCircleColor: onlyReset ? null : Colors.transparent,
-      customIcon: Text("$val"),
-      onTap: onlyReset ? (){} : () => variable.set(val+1),
-      onLongPress: () => variable.set(defaultVal),
-    ));
-  }
+  Widget build(BuildContext context) => noNeedToRebuild
+    ? fromVal(context, variable.value) 
+    : variable.build(fromVal);
+
+  Widget fromVal(BuildContext _, int val) => ExtraButton(
+    text: title,
+    icon: null,
+    customCircleColor: onlyReset ? null : Colors.transparent,
+    customIcon: Text("$val"),
+    onTap: onlyReset ? (){} : () => variable.set(val+1),
+    onLongPress: () => variable.set(defaultVal),
+  );
 }
