@@ -11,6 +11,8 @@ class Spell {
   final int veyransProduced; // if -1 -> double 
   final int scoundrelProduced; // if -1 -> double 
   final int artistsProduced; // if -1 -> double
+  final int thumbsProduced; // if -1 -> double
+  final int birgisProduced;
 
   const Spell(this.manaCost, this.manaProduct, {
     this.chance = 1.0,
@@ -19,15 +21,19 @@ class Spell {
     this.krarksProduced = 0,
     this.scoundrelProduced = 0,
     this.treasuresProduct = 0,
+    this.thumbsProduced = 0,
+    this.birgisProduced = 0,
   });
 
   static Spell fromJson(Map json) => Spell(
-    json['manaCost'], json['manaProduct'],
-    chance: json["chance"],
-    artistsProduced: json["artistsProduced"],
-    krarksProduced:  json["krarksProduced"],
-    scoundrelProduced: json["scoundrelProduced"],
-    veyransProduced:  json["veyransProduced"],
+    json['manaCost'] ?? 0, json['manaProduct'] ?? 0,
+    chance: json["chance"] ?? 1.0,
+    artistsProduced: json["artistsProduced"] ?? 0,
+    krarksProduced:  json["krarksProduced"] ?? 0,
+    scoundrelProduced: json["scoundrelProduced"] ?? 0,
+    veyransProduced:  json["veyransProduced"] ?? 0,
+    thumbsProduced: json["thumbsProduced"] ?? 0,
+    birgisProduced: json["birgisProduced"] ?? 0,
   ); 
 
   Map<String,dynamic> get toJson => {
@@ -39,6 +45,8 @@ class Spell {
     "scoundrelProduced": this.scoundrelProduced,
     "veyransProduced": this.veyransProduced,
     "treasuresProduct": this.treasuresProduct,
+    "thumbsProduced": this.thumbsProduced,
+    "birgisProduced": this.birgisProduced,
   };
 
   Spell copyWith({
@@ -50,6 +58,8 @@ class Spell {
     int? krarksProduced,
     int? scoundrelProduced,
     int? treasuresProduct,
+    int? thumbsProduced,
+    int? birgisProduced,
   }) => Spell(
     manaCost ?? this.manaCost,
     manaProduct ?? this.manaProduct,
@@ -59,6 +69,8 @@ class Spell {
     artistsProduced: artistsProduced ?? this.artistsProduced,
     scoundrelProduced: scoundrelProduced ?? this.scoundrelProduced,
     treasuresProduct: treasuresProduct ?? this.treasuresProduct,
+    thumbsProduced: thumbsProduced ?? this.thumbsProduced,
+    birgisProduced: birgisProduced ?? this.birgisProduced,
   );
 }
 

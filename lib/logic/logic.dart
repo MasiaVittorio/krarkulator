@@ -129,6 +129,24 @@ class Logic extends BlocBase {
   void onNextRefreshTotalResolved(){
     onNextRefresh["totalResolved"] = resolved.refresh;
   }
+  void onNextRefreshArtists(){
+    onNextRefresh["artists"] = artists.refresh;
+  }
+  void onNextRefreshScoundrels(){
+    onNextRefresh["scoundrels"] = scoundrels.refresh;
+  }
+  void onNextRefreshVeyrans(){
+    onNextRefresh["veyrans"] = veyrans.refresh;
+  }
+  void onNextRefreshThumbs(){
+    onNextRefresh["thumbs"] = thumbs.refresh;
+  }
+  void onNextRefreshBirgis(){
+    onNextRefresh["birgis"] = birgis.refresh;
+  }
+  void onNextRefreshKrarks(){
+    onNextRefresh["krarks"] = krarks.refresh;
+  }
 
   /// Casts the spell and generates triggers
   void cast({required bool automatic}) {
@@ -142,6 +160,11 @@ class Logic extends BlocBase {
 
     ++storm.value;
     onNextRefreshTotalStormCount();
+
+    if(birgis.value > 0){
+      mana.value += birgis.value;
+      onNextRefreshMana();
+    }
 
     zone.value = Zone.stack;
     onNextRefreshZone();
@@ -209,8 +232,39 @@ class Logic extends BlocBase {
     onNextRefreshTotalResolved();
     /// resolve
     if(spell.value.chance == 1.0 || rng.nextDouble() < spell.value.chance){
-      mana.value += spell.value.manaProduct;
-      onNextRefreshMana();
+      
+      if(spell.value.manaProduct != 0){
+        mana.value += spell.value.manaProduct;
+        onNextRefreshMana();
+      }
+      if(spell.value.artistsProduced > 0){
+        artists.value += spell.value.artistsProduced;
+        onNextRefreshArtists();
+      }
+      if(spell.value.krarksProduced > 0){
+        krarks.value += spell.value.krarksProduced;
+        onNextRefreshKrarks();
+      }
+      if(spell.value.scoundrelProduced > 0){
+        scoundrels.value += spell.value.scoundrelProduced;
+        onNextRefreshScoundrels();
+      }
+      if(spell.value.treasuresProduct > 0){
+        treasures.value += spell.value.treasuresProduct;
+        onNextRefreshTreasures();
+      }
+      if(spell.value.veyransProduced > 0){
+        veyrans.value += spell.value.veyransProduced;
+        onNextRefreshVeyrans();
+      }
+      if(spell.value.thumbsProduced > 0){
+        thumbs.value += spell.value.thumbsProduced;
+        onNextRefreshThumbs();
+      }
+      if(spell.value.birgisProduced > 0){
+        birgis.value += spell.value.birgisProduced;
+        onNextRefreshBirgis();
+      }
     }
   }
 
