@@ -93,74 +93,80 @@ class LittleChild extends StatelessWidget {
   final Widget collapsedChild;
   final Widget expandedChild;
 
+  BoxConstraints constraints(double height) => BoxConstraints(
+    maxWidth: width,
+    maxHeight: height,
+  );
+
   @override
   Widget build(BuildContext context) {
+    final stage = Stage.of<KrPage,dynamic>(context)!;
+    final VoidCallback callback = () => stage.mainPagesController.goToPage(page);
+    final physics = SidereusScrollPhysics(
+      alwaysScrollable: true,
+      bottomBounce: true,
+      topBounce: true,
+      bottomBounceCallback: callback,
+      topBounceCallback: callback,
+    );
 
     final collapsedBoxed = ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: collapsedHeigth,
-        maxWidth: width,
-      ),
+      constraints: constraints(collapsedHeigth),
       child: collapsedChild,
     );
     final expandedBoxed = ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: expandedHeigth,
-        maxWidth: width,
-      ),
+      constraints: constraints(expandedHeigth),
       child: expandedChild,
     );
 
-    return StageBuild.offMainPage<KrPage>((_, p) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: physics,
+      child: Container(
+        width: width,
+        child: StageBuild.offMainPage<KrPage>((_, p) => AnimatedDouble(
+          value: p == page ? expandedHeigth : collapsedHeigth,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+          builder: (_, val) {
 
-      final isExpanded = (p == page);
-      final isCollapsed = !isExpanded;
+            final expandedOpacity = val.mapToRange(0.0, 1.0, 
+              fromMin: collapsedHeigth, fromMax: expandedHeigth,
+            );
+            final collapsedOpacity = 1 - expandedOpacity;
 
-      return AnimatedDouble(
-        value: isExpanded ? expandedHeigth : collapsedHeigth,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-        builder: (_, val) {
-
-          final expandedOpacity = val.mapToRange(0.0, 1.0, 
-            fromMin: collapsedHeigth, fromMax: expandedHeigth,
-          );
-          final collapsedOpacity = 1 - expandedOpacity;
-
-          return ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: width,
-              maxHeight: val,
-            ),
-            child: Stack(children: [
-              
-              Positioned(
-                top: 0, left: 0, right: 0, bottom: null,
-                child: IgnorePointer(
-                  ignoring: isExpanded,
-                  child: Opacity(
-                    opacity: collapsedOpacity,
-                    child: collapsedBoxed,
+            return ConstrainedBox(
+              constraints: constraints(val),
+              child: Stack(children: [
+                
+                Positioned(
+                  top: 0, left: 0, right: 0, height: collapsedHeigth,
+                  child: IgnorePointer(
+                    ignoring: val != collapsedHeigth,
+                    child: Opacity(
+                      opacity: collapsedOpacity,
+                      child: collapsedBoxed,
+                    ),
                   ),
                 ),
-              ),
 
-              Positioned(
-                top: 0, left: 0, right: 0, bottom: null,
-                child: IgnorePointer(
-                  ignoring: isCollapsed,
-                  child: Opacity(
-                    opacity: expandedOpacity,
-                    child: expandedBoxed,
+                Positioned(
+                  top: 0, left: 0, right: 0, height: expandedHeigth,
+                  child: IgnorePointer(
+                    ignoring: val != expandedHeigth,
+                    child: Opacity(
+                      opacity: expandedOpacity,
+                      child: expandedBoxed,
+                    ),
                   ),
                 ),
-              ),
 
-            ],),
-          );
-        },
-      );
-    });
+              ],),
+            );
+          },
+        )),
+      ),
+    );
   }
 }
 

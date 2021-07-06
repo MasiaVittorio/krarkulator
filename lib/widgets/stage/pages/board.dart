@@ -52,10 +52,9 @@ class BoardCollapsed extends StatelessWidget {
             defaultVal: 0,
             noNeedToRebuild: true,
           )
-        ],),),),],
+        ],margin: EdgeInsets.zero,),),),],
         mainAxisSize: MainAxisSize.max,
-        margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-        
+        margin: padding1Collapsed,
       ),
     );
   }
@@ -84,7 +83,7 @@ class BoardExpanded extends StatelessWidget {
             variable: logic.thumbs,
             defaultVal: 0,
           ),
-        ],),),
+        ],margin: EdgeInsets.zero,),),
         Expanded(child: ExtraButtons(children: [
           IntToggle(
             title: "Scoundrels",
@@ -96,7 +95,7 @@ class BoardExpanded extends StatelessWidget {
             variable: logic.artists,
             defaultVal: 0,
           ),
-        ],),),
+        ],margin: EdgeInsets.zero,),),
         Expanded(child: ExtraButtons(children: [
           IntToggle(
             title: "Veyrans",
@@ -108,10 +107,10 @@ class BoardExpanded extends StatelessWidget {
             variable: logic.birgis,
             defaultVal: 0,
           ),
-        ],),),
+        ],margin: EdgeInsets.zero,),),
       ],
       mainAxisSize: MainAxisSize.max, 
-      margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+      margin: padding1Expanded,
     );
   }
 }

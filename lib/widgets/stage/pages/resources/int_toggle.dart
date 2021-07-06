@@ -30,5 +30,6 @@ class IntToggle extends StatelessWidget {
     customIcon: Text("$val"),
     onTap: onlyReset ? (){} : () => variable.set(val+1),
     onLongPress: () => variable.set(defaultVal),
+    twoLines: title.contains("\n"),
   );
 }

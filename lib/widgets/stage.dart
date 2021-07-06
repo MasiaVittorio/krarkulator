@@ -1,8 +1,7 @@
 import 'package:krarkulator/everything.dart';
-// import 'pages/all.dart';
-import 'collapsed.dart';
-import 'extended.dart';
-import 'body.dart';
+import 'stage/collapsed.dart';
+import 'stage/panel/extended.dart';
+import 'stage/body.dart';
 
 class KrarkStage extends StatelessWidget {
   const KrarkStage({ Key? key }) : super(key: key);
@@ -11,7 +10,7 @@ class KrarkStage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Logic.of(context);
     
-    return Stage<KrPage,dynamic>(
+    return Stage<KrPage,PanelPage>(
       body: const KrBody(), 
       collapsedPanel: const KrCollapsed(), 
       extendedPanel: const KrExtended(), 
@@ -28,9 +27,30 @@ class KrarkStage extends StatelessWidget {
       wholeScreen: true,
 
       storeKey: "krarkulator stage key unique",
-      jsonToMainPage: (j) => KrPages.fromName(j)!,
-      mainPageToJson: (p) => p.name as dynamic,
+      jsonToPanelPage: (j) => PanelPages.fromName(j)!,
+      panelPageToJson: (p) => p.name,
 
+      panelPages: StagePagesData<PanelPage>.nullable(
+        defaultPage: PanelPage.dice,
+        orderedPages: const [PanelPage.spells, PanelPage.dice, PanelPage.themes],
+        pagesData: const <PanelPage,StagePage>{
+          PanelPage.spells: StagePage(
+            icon: McIcons.cards_outline,
+            name: "Spells",
+          ),
+          PanelPage.dice: StagePage(
+            icon: McIcons.dice_3_outline,
+            name: "Random",
+          ),
+          PanelPage.themes: StagePage(
+            icon: McIcons.palette_outline,
+            name: "Themes",
+          ),
+        },
+      ),
+
+      jsonToMainPage: (j) => KrPages.fromName(j)!,
+      mainPageToJson: (p) => p.name,
       mainPages: StagePagesData<KrPage>.nullable(
         defaultPage: KrPage.board,
         orderedPages: const [

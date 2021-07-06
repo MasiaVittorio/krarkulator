@@ -8,24 +8,6 @@ export 'sub_blocs/all.dart';
 
 class Logic extends BlocBase {
   
-  @override
-  void dispose() {
-    spell.dispose();
-    zone.dispose();
-    mana.dispose();
-    storm.dispose();
-    resolved.dispose();
-    krarks.dispose();
-    thumbs.dispose();
-    veyrans.dispose();
-    artists.dispose();
-    scoundrels.dispose();
-    triggers.dispose();
-    automatic.dispose();
-    maxCasts.dispose();
-    onNextRefresh.clear();
-  }
-
   /// throws a runtime error if the context has no logic
   static Logic of(BuildContext context) => BlocProvider.of<Logic>(context)!;
 
@@ -33,42 +15,7 @@ class Logic extends BlocBase {
 
   late Random rng;
 
-  final BlocVar<Spell> spell = PersistentVar(
-    initVal: Spell(0,0),
-    key: "krarkulator logic blocVar spell",
-    fromJson: (j) => Spell.fromJson(j as Map),
-    toJson: (s) => s.toJson,
-  );
-
-  final BlocVar<Zone> zone = PersistentVar(
-    initVal: Zone.hand,
-    key: "krarkulator logic blocVar zone",
-    toJson: (z) => z.name,
-    fromJson: (j) => Zones.fromName(j as String),
-  );
-
-
-  final BlocVar<int> mana = PersistentVar(
-    initVal: 0,
-    key: "krarkulator logic blocVar mana",
-  );
-
-  final BlocVar<int> treasures = PersistentVar(
-    initVal: 0,
-    key: "krarkulator logic blocVar treasures",
-  );
-
-  final BlocVar<int> storm = PersistentVar(
-    initVal: 0,
-    key: "krarkulator logic blocVar storm",
-  );
-
-  final BlocVar<int> resolved = PersistentVar(
-    initVal: 0,
-    key: "krarkulator logic blocVar resolved",
-  );
-
-
+  ///==== Board ==============================================
   final BlocVar<int> krarks = PersistentVar(
     initVal: 1,
     key: "krarkulator logic blocVar krarks",
@@ -94,8 +41,50 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar veyrans",
   );
 
+
+  ///==== Spell ==============================================
+  final BlocVar<Spell> spell = PersistentVar(
+    initVal: Spell(0,0),
+    key: "krarkulator logic blocVar spell",
+    fromJson: (j) => Spell.fromJson(j as Map),
+    toJson: (s) => s.toJson,
+  );
+
+
+  ///==== Status ==============================================
+  final BlocVar<Zone> zone = PersistentVar(
+    initVal: Zone.hand,
+    key: "krarkulator logic blocVar zone",
+    toJson: (z) => z.name,
+    fromJson: (j) => Zones.fromName(j as String),
+  );
+
+  final BlocVar<int> mana = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar mana",
+  );
+
+  final BlocVar<int> treasures = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar treasures",
+  );
+
+  final BlocVar<int> storm = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar storm",
+  );
+
+  final BlocVar<int> resolved = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar resolved",
+  );
+
+
+  ///===== Triggers ===============================================
   final BlocVar<List<ThumbTrigger>> triggers = BlocVar([]);
 
+
+  ///===== Settings ===============================================
   final BlocVar<bool> automatic = PersistentVar(
     initVal: false,
     key: "krarkulator logic blocVar automatic",
@@ -106,11 +95,39 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar maxCasts",
   );
 
+  @override
+  void dispose() {
+    /// Board
+    krarks.dispose();
+    thumbs.dispose();
+    scoundrels.dispose();
+    artists.dispose();
+    birgis.dispose();
+    veyrans.dispose();
+    /// Spell
+    spell.dispose();
+    /// Status
+    zone.dispose();
+    mana.dispose();
+    treasures.dispose();
+    storm.dispose();
+    resolved.dispose();
+    /// Triggers
+    triggers.dispose();
+    /// Settings
+    automatic.dispose();
+    maxCasts.dispose();
 
+    onNextRefresh.clear();
+  }
+
+  ///===== Constructor ===============================================
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
   }
 
+
+  ///===== Refreshes ===============================================
   void onNextRefreshZone(){
     onNextRefresh["zone"] = zone.refresh;
   }
@@ -147,6 +164,17 @@ class Logic extends BlocBase {
   void onNextRefreshKrarks(){
     onNextRefresh["krarks"] = krarks.refresh;
   }
+
+  void refreshIf(bool v){
+    if(v) refresh();
+  }
+  void refresh(){
+    onNextRefresh.values.forEach((f) => f());
+    onNextRefresh.clear();
+  }
+
+
+  ///===== Methods ===============================================
 
   /// Casts the spell and generates triggers
   void cast({required bool automatic}) {
@@ -268,36 +296,6 @@ class Logic extends BlocBase {
     }
   }
 
-  void reset(){
-    this.krarks.set(1);
-    this.thumbs.set(0);
-    this.artists.set(0);
-    this.birgis.set(0);
-    this.scoundrels.set(0);
-    this.veyrans.set(0);
-
-    this.treasures.set(0);
-    this.mana.set(0);
-    this.storm.set(0);
-    this.resolved.set(0);
-
-    this.zone.set(Zone.hand);
-    this.spell.set(Spell(0,0));
-
-    this.triggers.value.clear();
-    this.triggers.refresh();
-  }
-
-  void refreshIf(bool v){
-    if(v) refresh();
-  }
-
-  void refresh(){
-    onNextRefresh.values.forEach((f) => f());
-    onNextRefresh.clear();
-  }
-
-
   void autoSolveTrigger(){
     ThumbTrigger trigger = triggers.value.last;
     Flip choice;
@@ -340,5 +338,26 @@ class Logic extends BlocBase {
     => mana.value >= spell.value.manaCost 
     && zone.value == Zone.hand;
 
+
+  void reset(){
+    /// Board
+    krarks.set(1);
+    thumbs.set(0);
+    artists.set(0);
+    birgis.set(0);
+    scoundrels.set(0);
+    veyrans.set(0);
+    /// Status
+    zone.set(Zone.hand);
+    treasures.set(0);
+    mana.set(0);
+    storm.set(0);
+    resolved.set(0);
+    /// Spell
+    spell.set(Spell(0,0));
+    /// Triggers
+    triggers.value.clear();
+    triggers.refresh();
+  }
 
 } 
