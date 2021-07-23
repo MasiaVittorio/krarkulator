@@ -1,3 +1,4 @@
+import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
 
 class KrCollapsed extends StatelessWidget {
@@ -7,6 +8,8 @@ class KrCollapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Logic.of(context);
     final error = TextStyle(color: Theme.of(context).colorScheme.error);
+    final stage = Stage.of<KrPage,dynamic>(context)!;
+
 
     return logic.automatic.build((_, automatic)
     => logic.krarks.build((_, krarks) 
@@ -16,7 +19,7 @@ class KrCollapsed extends StatelessWidget {
     => logic.canCast.build((_, canCast){
 
       const Widget leading = Padding(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.symmetric(horizontal: 12),
         child: Icon(ManaIcons.instant),
       );
       final Widget title = AnimatedText(canCast 
@@ -32,11 +35,11 @@ class KrCollapsed extends StatelessWidget {
           : (!(zone == Zone.hand) 
             ? Text("Spell out of hand", style: error,)
             : null));
-      final VoidCallback? action = canCast ? (
-          (automatic && krarks > 1) 
-            ? () => logic.keepCasting(forUpTo: logic.maxCasts.value)
-            : () => logic.cast(automatic: false)
-        ) : null;
+      final VoidCallback? action = canCast ? (){
+        if(automatic && krarks > 1) 
+          logic.keepCasting(forUpTo: logic.maxCasts.value);
+        else logic.cast(automatic: false);
+      } : null;
       final Widget tile = Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -47,7 +50,10 @@ class KrCollapsed extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               title,
-              if(subTitle != null) subTitle,
+              AnimatedListed(
+                listed: subTitle != null,
+                child: subTitle ?? Container(),
+              ),
             ],
           ),),
         ],
@@ -58,8 +64,9 @@ class KrCollapsed extends StatelessWidget {
         icon: Icons.repeat, 
         text: automatic ? "automatic" : "manual", 
         onChanged: (v){
-          if(krarks > 1) return;
-          logic.automatic.set(v);
+          if(krarks <= 1) logic.automatic.setDistinct(false);
+          else logic.automatic.setDistinct(v);
+          stage.mainPagesController.goToPage(KrPage.triggers);
         },
         value: automatic,
       );
@@ -69,7 +76,12 @@ class KrCollapsed extends StatelessWidget {
           onTap: action,
           child: tile,
         ),),
-        toggle,
+        KrWidgets.VerticalDivider,
+        Container(
+          alignment: Alignment.center,
+          width: 100,
+          child: toggle
+        ),
       ],);
     }
     ))))));

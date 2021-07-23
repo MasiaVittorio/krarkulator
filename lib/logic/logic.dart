@@ -133,7 +133,7 @@ class Logic extends BlocBase {
       map: (m,s,z) => _computeCanCast,
     );
   }
-  bool get _computeCanCast => mana.value >= spell.value.manaCost 
+  bool get _computeCanCast => mana.value + treasures.value >= spell.value.manaCost 
     && zone.value == Zone.hand;
 
 
@@ -194,6 +194,12 @@ class Logic extends BlocBase {
     onNextRefreshTriggers();
 
     mana.value -= spell.value.manaCost; 
+    if(mana.value < 0){
+      final int treasuresToSpend = 0 - mana.value;
+      mana.value = 0;
+      treasures.value -= treasuresToSpend;
+      onNextRefreshTreasures();
+    }
     onNextRefreshMana();
 
     ++storm.value;
@@ -365,6 +371,7 @@ class Logic extends BlocBase {
     /// Triggers
     triggers.value.clear();
     triggers.refresh();
+    automatic.set(false);
   }
 
 } 
