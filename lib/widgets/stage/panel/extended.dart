@@ -6,10 +6,13 @@ class KrExtended extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StageExtendedPanel<PanelPage>(children: const {
-      PanelPage.dice: RandomPanel(),
-      PanelPage.spells: SizedBox(),
-      PanelPage.themes: SizedBox(),
-    });
+    return StageExtendedPanel<PanelPage>(
+      canvasBackground: true,
+      children: const {
+        PanelPage.dice: RandomPanel(),
+        PanelPage.spells: SizedBox(),
+        PanelPage.themes: SizedBox(),
+      }
+    );
   }
 }
