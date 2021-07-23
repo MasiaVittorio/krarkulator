@@ -1,4 +1,5 @@
 import 'package:krarkulator/everything.dart';
+// TODO: absolutely the triggers
 
 
 class TriggersView extends StatelessWidget {

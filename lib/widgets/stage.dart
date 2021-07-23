@@ -58,19 +58,19 @@ class KrarkStage extends StatelessWidget {
         ],
         pagesData: const <KrPage,StagePage>{
           KrPage.board: StagePage(
-            icon: Icons.favorite,
+            icon: ManaIcons.creature,
             name: "Board",
           ),
           KrPage.triggers: StagePage(
-            icon: Icons.favorite,
+            icon: McIcons.cards_outline,
             name: "Triggers",
           ),
           KrPage.spell: StagePage(
-            icon: Icons.favorite,
+            icon: ManaIcons.sorcery,
             name: "Spell",
           ),
           KrPage.status: StagePage(
-            icon: Icons.favorite,
+            icon: ManaIcons.c,
             name: "Status",
           ),
         },

@@ -95,6 +95,8 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar maxCasts",
   );
 
+  late BlocVar<bool> canCast;
+
   @override
   void dispose() {
     /// Board
@@ -118,13 +120,21 @@ class Logic extends BlocBase {
     automatic.dispose();
     maxCasts.dispose();
 
+    canCast.dispose();
+
     onNextRefresh.clear();
   }
 
   ///===== Constructor ===============================================
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
+    canCast = BlocVar.fromCorrelateLatest3<bool,int,Spell,Zone>(
+      mana, spell, zone,
+      map: (m,s,z) => _computeCanCast,
+    );
   }
+  bool get _computeCanCast => mana.value >= spell.value.manaCost 
+    && zone.value == Zone.hand;
 
 
   ///===== Refreshes ===============================================
@@ -178,7 +188,7 @@ class Logic extends BlocBase {
 
   /// Casts the spell and generates triggers
   void cast({required bool automatic}) {
-    assert(canCast);
+    assert(_computeCanCast);
 
     triggers.value.clear();
     onNextRefreshTriggers();
@@ -322,7 +332,7 @@ class Logic extends BlocBase {
     assert(forUpTo < 1000000000);
 
     int steps = 0;
-    while(canCast && steps < forUpTo){
+    while(_computeCanCast && steps < forUpTo){
       ++steps;
       cast(automatic: true);
       final n = triggers.value.length;
@@ -334,9 +344,6 @@ class Logic extends BlocBase {
     refresh();
   }
 
-  bool get canCast 
-    => mana.value >= spell.value.manaCost 
-    && zone.value == Zone.hand;
 
 
   void reset(){

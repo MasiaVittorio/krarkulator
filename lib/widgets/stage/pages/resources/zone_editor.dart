@@ -10,9 +10,9 @@ class ZoneEditor extends StatelessWidget {
     
     return logic.zone.build((context, zone) => ExtraButton(
       icon: const <Zone, IconData>{
-        Zone.hand: McIcons.cards_outline,
+        Zone.hand: McIcons.hand_right,
         Zone.graveyard: ManaIcons.flashback,
-        Zone.stack: ManaIcons.instant,
+        Zone.stack: McIcons.cards_outline,
       }[zone] ?? Icons.error,
       customCircleColor: Colors.transparent,
       text: (const <Zone, String>{
