@@ -187,6 +187,9 @@ class Logic extends BlocBase {
   void onNextRefreshBirgis(){
     onNextRefresh["birgis"] = birgis.refresh;
   }
+  void onNextRefreshBonusRounds(){
+    onNextRefresh["bonusRounds"] = bonusRounds.refresh;
+  }
   void onNextRefreshKrarks(){
     onNextRefresh["krarks"] = krarks.refresh;
   }
@@ -247,7 +250,8 @@ class Logic extends BlocBase {
     }
     
     if(bonusRounds.value > 0){
-      for(int i=1; i<=bonusRounds.value; ++i){
+      final int n = bonusRounds.value + 0;
+      for(int i=1; i<=n; ++i){
         _solveSpell();
       }
     }
@@ -329,6 +333,10 @@ class Logic extends BlocBase {
       if(spell.value.birgisProduced > 0){
         birgis.value += spell.value.birgisProduced;
         onNextRefreshBirgis();
+      }
+      if(spell.value.bonusRounds > 0){
+        bonusRounds.value += spell.value.bonusRounds;
+        onNextRefreshBonusRounds();
       }
     }
   }
