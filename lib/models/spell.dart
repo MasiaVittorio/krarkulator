@@ -13,6 +13,7 @@ class Spell {
   final int artistsProduced; // if -1 -> double
   final int thumbsProduced; // if -1 -> double
   final int birgisProduced;
+  final int bonusRounds;
 
   const Spell(this.manaCost, this.manaProduct, {
     this.chance = 1.0,
@@ -23,6 +24,7 @@ class Spell {
     this.treasuresProduct = 0,
     this.thumbsProduced = 0,
     this.birgisProduced = 0,
+    this.bonusRounds = 0,
   });
 
   static Spell fromJson(Map json) => Spell(
@@ -34,6 +36,7 @@ class Spell {
     veyransProduced:  json["veyransProduced"] ?? 0,
     thumbsProduced: json["thumbsProduced"] ?? 0,
     birgisProduced: json["birgisProduced"] ?? 0,
+    bonusRounds: json["bonusRounds"] ?? 0,
   ); 
 
   Map<String,dynamic> get toJson => {
@@ -47,6 +50,7 @@ class Spell {
     "treasuresProduct": this.treasuresProduct,
     "thumbsProduced": this.thumbsProduced,
     "birgisProduced": this.birgisProduced,
+    "bonusRounds": this.bonusRounds,
   };
 
   Spell copyWith({
@@ -60,6 +64,7 @@ class Spell {
     int? treasuresProduct,
     int? thumbsProduced,
     int? birgisProduced,
+    int? bonusRounds,
   }) => Spell(
     manaCost ?? this.manaCost,
     manaProduct ?? this.manaProduct,
@@ -71,6 +76,7 @@ class Spell {
     treasuresProduct: treasuresProduct ?? this.treasuresProduct,
     thumbsProduced: thumbsProduced ?? this.thumbsProduced,
     birgisProduced: birgisProduced ?? this.birgisProduced,
+    bonusRounds: bonusRounds ?? this.bonusRounds,
   );
 }
 

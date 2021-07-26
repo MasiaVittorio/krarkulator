@@ -1,8 +1,6 @@
 import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
 
-// TODO: after selecting a color, next change of page throws error what the actual?
-
 class ThemePanel extends StatelessWidget {
   const ThemePanel({ Key? key }) : super(key: key);
 

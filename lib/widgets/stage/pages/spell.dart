@@ -64,18 +64,25 @@ class SpellExpanded extends StatelessWidget {
           title: "Krark\ncopies", 
           content: (s) => "${s.krarksProduced}",
         ),
-        SpellEditor(
-          tap: (s) => s.copyWith(thumbsProduced: s.thumbsProduced + 1), 
-          long: (s) => s.copyWith(thumbsProduced: 0), 
-          title: "Thumb\ncopies", 
-          content: (s) => "${s.thumbsProduced}",
-        ),
+        // SpellEditor(
+        //   tap: (s) => s.copyWith(thumbsProduced: s.thumbsProduced + 1), 
+        //   long: (s) => s.copyWith(thumbsProduced: 0), 
+        //   title: "Thumb\ncopies", 
+        //   content: (s) => "${s.thumbsProduced}",
+        // ),
         SpellEditor(
           tap: (s) => s.copyWith(veyransProduced: s.veyransProduced + 1), 
           long: (s) => s.copyWith(veyransProduced: 0), 
           title: "Veyran\ncopies", 
           content: (s) => "${s.veyransProduced}",
         ),
+        SpellEditor(
+          tap: (s) => s.copyWith(bonusRounds: s.bonusRounds + 1), 
+          long: (s) => s.copyWith(bonusRounds: 0), 
+          title: "Bonus\nrounds", 
+          content: (s) => "${s.bonusRounds}",
+        ),
+        
       ],margin: EdgeInsets.zero,),),
       Expanded(child: ExtraButtons(children: [
         SpellEditor(

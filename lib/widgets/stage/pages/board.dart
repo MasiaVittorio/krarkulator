@@ -95,6 +95,11 @@ class BoardExpanded extends StatelessWidget {
             variable: logic.artists,
             defaultVal: 0,
           ),
+          IntToggle(
+            title: "Birgis",
+            variable: logic.birgis,
+            defaultVal: 0,
+          ),
         ],margin: EdgeInsets.zero,),),
         Expanded(child: ExtraButtons(children: [
           IntToggle(
@@ -103,8 +108,8 @@ class BoardExpanded extends StatelessWidget {
             defaultVal: 0,
           ),
           IntToggle(
-            title: "Birgis",
-            variable: logic.birgis,
+            title: "B. rounds",
+            variable: logic.bonusRounds,
             defaultVal: 0,
           ),
         ],margin: EdgeInsets.zero,),),

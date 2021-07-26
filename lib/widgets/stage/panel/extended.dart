@@ -9,12 +9,10 @@ class KrExtended extends StatelessWidget {
     return StageExtendedPanel<PanelPage>(
       canvasBackground: true,
       children: {
-        // PanelPage.dice: Container(),
-        // PanelPage.spells: Container(),
-        // PanelPage.themes: Container(),
         PanelPage.dice: RandomPanel(),
         PanelPage.spells: SpellsPanel(),
         PanelPage.themes: ThemePanel(),
+        PanelPage.info: InfoPanel(),
       }
     );
   }

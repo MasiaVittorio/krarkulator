@@ -17,6 +17,7 @@ class Logic extends BlocBase {
   late Random rng;
 
   ///==== Board ==============================================
+  ///
   final BlocVar<int> krarks = PersistentVar(
     initVal: 1,
     key: "krarkulator logic blocVar krarks",
@@ -40,6 +41,10 @@ class Logic extends BlocBase {
   final BlocVar<int> veyrans = PersistentVar(
     initVal: 0,
     key: "krarkulator logic blocVar veyrans",
+  );
+  final BlocVar<int> bonusRounds = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar bonusRounds",
   );
 
 
@@ -116,6 +121,7 @@ class Logic extends BlocBase {
     artists.dispose();
     birgis.dispose();
     veyrans.dispose();
+    bonusRounds.dispose();
     /// Spell
     spell.dispose();
     /// Status
@@ -240,6 +246,11 @@ class Logic extends BlocBase {
       onNextRefreshTriggers();
     }
     
+    if(bonusRounds.value > 0){
+      for(int i=1; i<=bonusRounds.value; ++i){
+        _solveSpell();
+      }
+    }
     refreshIf(!automatic);
   }
 
@@ -370,6 +381,7 @@ class Logic extends BlocBase {
     birgis.set(0);
     scoundrels.set(0);
     veyrans.set(0);
+    bonusRounds.set(0);
     /// Status
     zone.set(Zone.hand);
     treasures.set(0);
