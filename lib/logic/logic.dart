@@ -274,7 +274,10 @@ class Logic extends BlocBase {
       _solveSpell();
 
       if(artists.value > 0){
-        treasures.value += artists.value;
+        treasures.value += artists.value 
+          * (1 + veyrans.value.clamp(0, double.infinity).toInt());
+          /// veyrans (as well as armonic prodigies) double the amount 
+          /// of treasures that the storm kiln artist makes!
         onNextRefreshTreasures();
       }
       if(scoundrels.value > 0){

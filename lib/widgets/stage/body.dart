@@ -6,6 +6,7 @@ class KrBody extends StatelessWidget {
   const KrBody({ Key? key }) : super(key: key);
 
   static const int n = 4;
+  // TODO: if too small, scrollable
 
   @override
   Widget build(BuildContext context){
