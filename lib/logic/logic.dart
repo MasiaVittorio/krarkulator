@@ -6,6 +6,7 @@ import 'package:sid_bloc/sid_bloc.dart';
 
 export 'sub_blocs/all.dart';
 
+
 class Logic extends BlocBase {
   
   /// throws a runtime error if the context has no logic
@@ -49,6 +50,14 @@ class Logic extends BlocBase {
     fromJson: (j) => Spell.fromJson(j as Map),
     toJson: (s) => s.toJson,
   );
+  final BlocVar<Map<String,Spell>> spellBook = PersistentVar(
+    initVal: <String,Spell>{},
+    key: "krarkulator logic blocVar spellBook",
+    fromJson: (j) => {for(final e in (j as Map).entries) 
+      e.key: Spell.fromJson(e.value)
+    },
+    toJson: (m) => {for(final e in m.entries) e.key: e.value.toJson},
+  );
 
 
   ///==== Status ==============================================
@@ -90,10 +99,11 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar automatic",
   );
 
-  final BlocVar<int> maxCasts = PersistentVar(
+  final BlocVar<int> maxFlips = PersistentVar(
     initVal: 100,
-    key: "krarkulator logic blocVar maxCasts",
+    key: "krarkulator logic blocVar maxFlips"
   );
+
 
   late BlocVar<bool> canCast;
 
@@ -118,7 +128,7 @@ class Logic extends BlocBase {
     triggers.dispose();
     /// Settings
     automatic.dispose();
-    maxCasts.dispose();
+    maxFlips.dispose();
 
     canCast.dispose();
 
@@ -332,17 +342,17 @@ class Logic extends BlocBase {
   }
 
   void keepCasting({
-    required int forUpTo,
+    required int forHowManyFlips,
   }){
-    assert(forUpTo > 0);
-    assert(forUpTo < 1000000000);
+    assert(forHowManyFlips > 0);
+    assert(forHowManyFlips < 1000000000);
 
-    int steps = 0;
-    while(_computeCanCast && steps < forUpTo){
-      ++steps;
+    int flips = 0;
+    while(_computeCanCast && flips < forHowManyFlips){
       cast(automatic: true);
       final n = triggers.value.length;
       for(int i=0; i<n; ++i){
+        flips += triggers.value.last.flips.length;
         autoSolveTrigger();
       }
     }

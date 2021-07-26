@@ -1,5 +1,5 @@
 import 'package:krarkulator/everything.dart';
-import 'stage/collapsed.dart';
+import 'stage/panel/collapsed.dart';
 import 'stage/panel/extended.dart';
 import 'stage/body.dart';
 
@@ -16,12 +16,20 @@ class KrarkStage extends StatelessWidget {
       extendedPanel: const KrExtended(), 
       topBarContent: StageTopBarContent(
         title: const StageTopBarTitle(
-          panelTitle: "Settings",
+          panelTitle: "Krarkulator",
         ),
-        secondary: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: logic.reset,
-        ),
+        secondary: StageBuild.offPanelMostlyOpened((_, opened) => AnimatedOpacity(
+          opacity: opened ? 0.0 : 1.0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.ease,
+          child: IgnorePointer(
+            ignoring: opened,
+            child: IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: logic.reset,
+            ),
+          ),
+        ),),
       ),
       
       wholeScreen: true,
@@ -35,7 +43,8 @@ class KrarkStage extends StatelessWidget {
         orderedPages: const [PanelPage.spells, PanelPage.dice, PanelPage.themes],
         pagesData: const <PanelPage,StagePage>{
           PanelPage.spells: StagePage(
-            icon: McIcons.cards_outline,
+            icon: McIcons.cards,
+            unselectedIcon: McIcons.cards_outline,
             name: "Spells",
           ),
           PanelPage.dice: StagePage(
@@ -43,7 +52,8 @@ class KrarkStage extends StatelessWidget {
             name: "Random",
           ),
           PanelPage.themes: StagePage(
-            icon: McIcons.palette_outline,
+            icon: McIcons.palette,
+            unselectedIcon: McIcons.palette_outline,
             name: "Themes",
           ),
         },
@@ -62,7 +72,8 @@ class KrarkStage extends StatelessWidget {
             name: "Board",
           ),
           KrPage.triggers: StagePage(
-            icon: McIcons.cards_outline,
+            icon: McIcons.cards,
+            unselectedIcon: McIcons.cards_outline,
             name: "Triggers",
           ),
           KrPage.spell: StagePage(

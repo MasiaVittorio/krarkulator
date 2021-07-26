@@ -15,6 +15,7 @@ class KrCollapsed extends StatelessWidget {
     => logic.krarks.build((_, krarks) 
     => logic.zone.build((_, zone)
     => logic.mana.build((_, mana)
+    => logic.treasures.build((_, treasures)
     => logic.spell.build((_, spell) 
     => logic.canCast.build((_, canCast){
 
@@ -28,35 +29,43 @@ class KrCollapsed extends StatelessWidget {
       ); 
       final Widget? subTitle = canCast 
         ? ((automatic && krarks > 1) 
-          ? Text("Until no bounce or ${logic.maxCasts.value} casts")
+          ? Text("Until no bounce or ${logic.maxFlips.value} flips")
           : null) 
-        : (mana < spell.manaCost 
+        : (mana + treasures < spell.manaCost 
           ? Text("Missing mana", style: error,)
           : (!(zone == Zone.hand) 
             ? Text("Spell out of hand", style: error,)
             : null));
       final VoidCallback? action = canCast ? (){
         if(automatic && krarks > 1) 
-          logic.keepCasting(forUpTo: logic.maxCasts.value);
-        else logic.cast(automatic: false);
+          logic.keepCasting(forHowManyFlips: logic.maxFlips.value);
+        else {
+          logic.cast(automatic: false);
+          stage.mainPagesController.goToPage(KrPage.triggers);
+        }
       } : null;
-      final Widget tile = Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          leading,
-          Expanded(child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              title,
-              AnimatedListed(
-                listed: subTitle != null,
-                child: subTitle ?? Container(),
-              ),
-            ],
-          ),),
-        ],
+      final Widget tile = Container(
+        color: Colors.transparent,
+        alignment: Alignment.center,
+        height: stage.dimensionsController.dimensions.value.collapsedPanelSize,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            leading,
+            Expanded(child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                title,
+                AnimatedListed(
+                  listed: subTitle != null,
+                  child: subTitle ?? Container(),
+                ),
+              ],
+            ),),
+          ],
+        ),
       );
 
       final Widget toggle = ExtraButtonToggle(
@@ -66,7 +75,6 @@ class KrCollapsed extends StatelessWidget {
         onChanged: (v){
           if(krarks <= 1) logic.automatic.setDistinct(false);
           else logic.automatic.setDistinct(v);
-          stage.mainPagesController.goToPage(KrPage.triggers);
         },
         value: automatic,
       );
@@ -76,14 +84,16 @@ class KrCollapsed extends StatelessWidget {
           onTap: action,
           child: tile,
         ),),
-        KrWidgets.VerticalDivider,
-        Container(
-          alignment: Alignment.center,
-          width: 100,
-          child: toggle
-        ),
+        if(krarks > 1) ...<Widget>[
+          KrWidgets.verticalDivider,
+          Container(
+            alignment: Alignment.center,
+            width: 100,
+            child: toggle
+          ),
+        ],
       ],);
     }
-    ))))));
+    )))))));
   }
 }

@@ -98,7 +98,7 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
             child: Text(
               result == null ? "-" : 
                 type == _Type.coin 
-                  ? (result == 0 ? "tails" : "head")
+                  ? (result == 0 ? "Tails" : "Heads")
                   : "$result", 
               style: theme.textTheme.headline4,
             ),
@@ -111,6 +111,7 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
         margin: const EdgeInsets.symmetric(horizontal: 10.0),
         onSelect: (t) => this.setState((){
           this.type = t;
+          this.result = null;
         }),
         selectedItem: type,
         items: <_Type,RadioSliderItem>{
