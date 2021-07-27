@@ -26,7 +26,7 @@ class KRActions{
     _launchUrl(KRUris.discordInvite);
   }
   static void githubPage() async {
-    _launchUrl(KRUris.githubPage);
+    _launchUrl(KRUris.githubKrarkulator);
   }
 
 }

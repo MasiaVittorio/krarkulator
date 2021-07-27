@@ -8,7 +8,7 @@ class KRUris{
   static const String telegramGroup = 'https://t.me/joinchat/CWQ9yhZgKHf0lPgJaeGkwQ';
   static const String discordInvite = "https://discord.gg/4G3pFf8HvW";
 
-  static const String githubPage = "https://github.com/MasiaVittorio/counterspell"; 
-  // TODO: update with krarkulator stuff
+  static const String githubCounterSpell = "https://github.com/MasiaVittorio/counterspell"; 
+  static const String githubKrarkulator  = "https://github.com/MasiaVittorio/krarkulator";
 
 }
