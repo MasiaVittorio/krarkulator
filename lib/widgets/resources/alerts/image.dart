@@ -14,9 +14,12 @@ class ImageAlert extends StatelessWidget {
       physics: Stage.of(context)!.panelController.panelScrollPhysics(),
       child: AspectRatio(
         aspectRatio: mtgAspectRatio,
-        child: Image(
-          image: image,
-          fit: BoxFit.cover,
+        child: Container(
+          color: Colors.black,
+          child: Image(
+            image: image,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

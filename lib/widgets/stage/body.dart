@@ -6,7 +6,8 @@ class KrBody extends StatelessWidget {
   const KrBody({ Key? key }) : super(key: key);
 
   static const int n = 4;
-  // TODO: if too small, scrollable
+
+  static const double _minHeight = 523.0;
 
   @override
   Widget build(BuildContext context){
@@ -14,60 +15,72 @@ class KrBody extends StatelessWidget {
     final stage = Stage.of<KrPage,dynamic>(context)!;
 
     final dimensions = stage.dimensionsController.dimensions.value;
+    // this should never change anyway
     final bottomPadding = dimensions.collapsedPanelSize / 2;
     
     return LayoutBuilder(builder: (_, constraints){
 
-      final space = constraints.maxHeight - bottomPadding;
+      final _available = constraints.maxHeight - bottomPadding;
+      final scrollable = _available < _minHeight;
+      final space = scrollable ? _minHeight : _available;
+      print(space);
+      print(_available);
       final little = space / (n+1);
       final big = little * 2;
       final littleExpanded = little*3;
       final width = constraints.maxWidth;
 
+      final Widget body = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LittleChild(
+            page: KrPage.board, 
+            width: width,
+            collapsedHeigth: little, 
+            expandedHeigth: littleExpanded, 
+            collapsedChild: BoardCollapsed(width: width,),
+            expandedChild: const BoardExpanded(),
+          ),
+          LittleChild(
+            page: KrPage.spell, 
+            width: width,
+            collapsedHeigth: little, 
+            expandedHeigth: littleExpanded, 
+            collapsedChild: SpellCollapsed(width: width,),
+            expandedChild: const SpellExpanded(),
+          ),
+          LittleChild(
+            page: KrPage.status, 
+            width: width,
+            collapsedHeigth: little, 
+            expandedHeigth: littleExpanded, 
+            collapsedChild: StatusCollapsed(width: width,),
+            expandedChild: const StatusExpanded(),
+          ),
+          
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: big,
+              maxWidth: width,
+            ),
+            child: const TriggersView(),
+          ),
+        ],
+      );
+
       return Material(
         child: ConstrainedBox(
           constraints: constraints,
-          child: Stack(children: [Positioned(
-            top: 0, left: 0, right: 0,
-            bottom: null,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                LittleChild(
-                  page: KrPage.board, 
-                  width: width,
-                  collapsedHeigth: little, 
-                  expandedHeigth: littleExpanded, 
-                  collapsedChild: BoardCollapsed(width: width,),
-                  expandedChild: const BoardExpanded(),
-                ),
-                LittleChild(
-                  page: KrPage.spell, 
-                  width: width,
-                  collapsedHeigth: little, 
-                  expandedHeigth: littleExpanded, 
-                  collapsedChild: SpellCollapsed(width: width,),
-                  expandedChild: const SpellExpanded(),
-                ),
-                LittleChild(
-                  page: KrPage.status, 
-                  width: width,
-                  collapsedHeigth: little, 
-                  expandedHeigth: littleExpanded, 
-                  collapsedChild: StatusCollapsed(width: width,),
-                  expandedChild: const StatusExpanded(),
-                ),
-                
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: big,
-                    maxWidth: width,
-                  ),
-                  child: const TriggersView(),
-                ),
-              ],
-            ),
-          )]),
+          child: scrollable 
+            ? SingleChildScrollView(
+              child: body,
+              padding: EdgeInsets.only(bottom: bottomPadding + 8),
+            )
+            : Stack(children: [Positioned(
+              top: 0, left: 0, right: 0,
+              bottom: null,
+              child: body,
+            )]),
         ),
       );
     });

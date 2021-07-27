@@ -252,6 +252,7 @@ class Logic extends BlocBase {
     if(bonusRounds.value > 0){
       final int n = bonusRounds.value + 0;
       for(int i=1; i<=n; ++i){
+        ++_limit;
         _solveSpell();
       }
     }
@@ -363,18 +364,19 @@ class Logic extends BlocBase {
     solveTrigger(choice, automatic: true);
   }
 
+  int _limit = 0;
   void keepCasting({
     required int forHowManyFlips,
   }){
     assert(forHowManyFlips > 0);
     assert(forHowManyFlips < 1000000000);
 
-    int flips = 0;
-    while(_computeCanCast && flips < forHowManyFlips){
+    _limit = 0;
+    while(_computeCanCast && _limit < forHowManyFlips){
       cast(automatic: true);
       final n = triggers.value.length;
       for(int i=0; i<n; ++i){
-        flips += triggers.value.last.flips.length;
+        _limit += triggers.value.last.flips.length;
         autoSolveTrigger();
       }
     }

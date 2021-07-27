@@ -29,7 +29,7 @@ class KrCollapsed extends StatelessWidget {
       ); 
       final Widget? subTitle = canCast 
         ? ((automatic && krarks > 1) 
-          ? Text("Until no bounce or ${logic.maxFlips.value} flips")
+          ? Text("Until no bounce or ${logic.maxFlips.value} actions")
           : null) 
         : (mana + treasures < spell.manaCost 
           ? Text("Missing mana", style: error,)

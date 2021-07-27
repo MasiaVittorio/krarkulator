@@ -29,9 +29,7 @@ class InfoPanel extends StatelessWidget {
             ExtraButton(
               icon: KrIcons.counterSpell,
               text: "CounterSpell",
-              onTap: (){
-                // TODO: open counterspell
-              },
+              onTap: KRActions.reviewCounterSpell,
               customCircleColor: Colors.transparent,
             ),
           ],),
