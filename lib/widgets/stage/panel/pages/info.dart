@@ -1,5 +1,6 @@
 import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
+import 'dart:math';
 
 class InfoPanel extends StatelessWidget {
   
@@ -68,12 +69,15 @@ class InfoPanel extends StatelessWidget {
           ),
         ]),
 
-        KrWidgets.height10,
-
-        Text(
-          '"Double or Nothing."',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontStyle: FontStyle.italic),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            Random(DateTime.now().millisecondsSinceEpoch).nextBool()
+              ? '"Double or Nothing."'
+              : "I suck at playing Krark, but I'm good at coding.\nWhich means...\nI'm actually really good at playing Krark.",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
         ),
       ],
     );
