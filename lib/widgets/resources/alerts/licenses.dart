@@ -27,7 +27,7 @@ class LicensesAlert extends StatelessWidget {
         leading: const Icon(McIcons.github),
         trailing: const FlutterLogo(size: 30),
         onTap: () => stage.showAlert(ConfirmAlert(
-          warningText: "You'll be redirected to your browser on CounterSpell's  github page",
+          warningText: "You'll be redirected to your browser on Krarkulator's  github page",
           twoLinesWarning: true,
           action: KRActions.githubPage,
           confirmIcon: Icons.exit_to_app,
