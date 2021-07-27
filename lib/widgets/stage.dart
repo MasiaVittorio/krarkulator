@@ -26,9 +26,9 @@ class KrarkStage extends StatelessWidget {
     panelPageToJson: (p) => p.name,
 
     panelPages: StagePagesData<PanelPage>.nullable(
-      defaultPage: PanelPage.dice,
+      defaultPage: PanelPage.spells,
       orderedPages: const [
-        PanelPage.spells, PanelPage.dice, PanelPage.themes, PanelPage.info,
+        PanelPage.dice, PanelPage.spells, PanelPage.themes, PanelPage.info,
       ],
       pagesData: const <PanelPage,StagePage>{
         PanelPage.spells: StagePage(
