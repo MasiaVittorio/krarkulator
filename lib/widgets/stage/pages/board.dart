@@ -15,9 +15,10 @@ class BoardCollapsed extends StatelessWidget {
       title: "Board",
       width: width,
       child: SubSection(
-        [Expanded(child: BlocVar.build4<int,int,int,int>(
-          logic.birgis, logic.veyrans, logic.scoundrels, logic.artists, 
-          builder: (_, b , v, s, a) => ExtraButtons(children: [
+        [Expanded(child: BlocVar.build5<int,int,int,int, int>(
+          logic.birgis, logic.veyrans, logic.scoundrels, 
+          logic.artists, logic.bonusRounds, 
+          builder: (_, b , v, s, a, r) => ExtraButtons(children: [
           IntToggle(
             title: "Krarks",
             variable: logic.krarks,
@@ -49,6 +50,12 @@ class BoardCollapsed extends StatelessWidget {
           else if(b! > 0) IntToggle(
             title: "Birgis",
             variable: logic.birgis,
+            defaultVal: 0,
+            noNeedToRebuild: true,
+          )
+          else if(r! > 0) IntToggle(
+            title: "Birgis",
+            variable: logic.bonusRounds,
             defaultVal: 0,
             noNeedToRebuild: true,
           )

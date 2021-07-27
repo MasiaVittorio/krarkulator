@@ -18,6 +18,7 @@ class StatusCollapsed extends StatelessWidget {
       margin: padding3Collapsed,
     ),
   );
+  // TODO: maybe highlight mana if can't cast for missing mana and so on
   
 }
 

@@ -68,12 +68,16 @@ class SpellTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Logic.of(context);
-    final stage = Stage.of(context)!;
+    final stage = Stage.of<KrPage,dynamic>(context)!;
 
     return RadioListTile(
       value: spellJson, 
       groupValue: currentJson, 
-      onChanged: (_) => logic.spell.set(spell),
+      onChanged: (_){
+        logic.spell.set(spell);
+        stage.closePanelCompletely();
+        stage.mainPagesController.goToPage(KrPage.spell);
+      },
       title: Text(name),
       secondary: IconButton(
         icon: KrWidgets.deleteIcon,

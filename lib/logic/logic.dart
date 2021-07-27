@@ -56,7 +56,13 @@ class Logic extends BlocBase {
     toJson: (s) => s.toJson,
   );
   final BlocVar<Map<String,Spell>> spellBook = PersistentVar(
-    initVal: <String,Spell>{},
+    initVal: <String,Spell>{
+      "Rite of Flame": Spell(1,2),
+      "Desperate Ritual": Spell(2,3),
+      "Bonus Round": Spell(3,9,bonusRounds: 1),
+      "Twinflame (Krark)": Spell(2,0,krarksProduced: 1),
+      "Heat Shimmer (Krark)": Spell(3,0,krarksProduced: 1),
+    },
     key: "krarkulator logic blocVar spellBook",
     fromJson: (j) => {for(final e in (j as Map).entries) 
       e.key: Spell.fromJson(e.value)
