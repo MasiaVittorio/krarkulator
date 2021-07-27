@@ -13,12 +13,12 @@ class KeyCardsAlert extends StatelessWidget {
     "Krark, the Thumbless": AssetImage(_dirCards + "Krark_the_Thumbless.jpg"),
     "Sakashima of a Thousand Faces": AssetImage(_dirCards + "Sakashima_of_a_Thousand_Faces.jpg"),
     "Krark's Thumb": AssetImage(_dirCards + "Krarks_Thumb.jpg"),
-    "Storm Kiln Artist": AssetImage(_dirCards + "Storm_Kiln_Artist.jpg"),
-    "Tavern Scoundrel": AssetImage(_dirCards + "Tavern_Scoundrel.jpg"),
+    "Bonus Round": AssetImage(_dirCards + "Bonus_Round.jpg"),
     "Veyran, Voice of Duality": AssetImage(_dirCards + "Veyran_Voice_of_Duality.jpg"),
     "Harmonic Prodigy": AssetImage(_dirCards + "Harmonic_Prodigy.jpg"),
+    "Storm Kiln Artist": AssetImage(_dirCards + "Storm_Kiln_Artist.jpg"),
+    "Tavern Scoundrel": AssetImage(_dirCards + "Tavern_Scoundrel.jpg"),
     "Birgi, God of Storytelling": AssetImage(_dirCards + "Birgi_God_of_Storytelling.jpg"),
-    "Bonus Round": AssetImage(_dirCards + "Bonus_Round.jpg"),
   };
   static const arts = <String,ImageProvider>{
     "Birgi, God of Storytelling": AssetImage(_dirArts + "Birgi_God_of_Storytelling.jpg"),
