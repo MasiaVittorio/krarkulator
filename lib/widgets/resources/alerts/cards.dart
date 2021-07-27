@@ -32,32 +32,60 @@ class KeyCardsAlert extends StatelessWidget {
     "Veyran, Voice of Duality": AssetImage(_dirArts + "Veyran_Voice_of_Duality.jpg"),
   }; 
   static const subtitles = <String,String>{
-    "Harmonic Prodigy": "Equivalent to veyran",
+    "Harmonic Prodigy": "(Equivalent to veyran)",
   };
 
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
-    
+    final theme = Theme.of(context);
+    final textColor = Colors.white;
+    // final imageOpacity = theme.brightness.isDark ? 0.5 : 0.7;
+    final imageColor = (theme.brightness.isDark 
+      ? theme.canvasColor : Colors.black).withOpacity(0.5);
 
     return HeaderedAlert("Key mentioned cards", child: stage
       .dimensionsController.dimensions.build((_, dim) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for(final e in cards.entries)
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: arts[e.key],
+          for(final couple in ([
+            for(final e in cards.entries)
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: arts[e.key]!,
+                    fit: BoxFit.cover,
+                    alignment: Alignment(0, -0.5),
+                    colorFilter: ColorFilter.mode(
+                      imageColor, 
+                      BlendMode.srcOver, 
+                    )
+                  ),
+
+                ),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: ListTile(
+                    title: Text(e.key, style: TextStyle(color: textColor),),
+                    subtitle: Text(
+                      subtitles[e.key] ?? "",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: textColor,
+                      ),
+                    ),
+                    onTap: () => stage.showAlert(
+                      ImageAlert(e.value),
+                      size: (screenWidth - dim.panelHorizontalPaddingOpened*2)
+                        / ImageAlert.mtgAspectRatio,
+                    ),
+                  ),
+                ),
               ),
-              title: Text(e.key),
-              subtitle: subtitles[e.key] != null ? Text(subtitles[e.key]!) : null,
-              onTap: () => stage.showAlert(
-                ImageAlert(e.value),
-                size: (screenWidth - dim.panelHorizontalPaddingOpened*2)
-                  / ImageAlert.mtgAspectRatio,
-              ),
-            ),
+          ].part(2))) Row(children: [
+            for(final element in couple!) Expanded(child: element),
+          ],),
         ],
       )),
     );

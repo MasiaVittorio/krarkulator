@@ -43,7 +43,7 @@ class InfoPanel extends StatelessWidget {
             title: Text("Key engine cards"),
             onTap: () => stage.showAlert(
               KeyCardsAlert(query.size.width),
-              size: 550,
+              size: 414,
             ),
           ),
         ]),

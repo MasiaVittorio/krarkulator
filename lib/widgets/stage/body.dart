@@ -23,8 +23,6 @@ class KrBody extends StatelessWidget {
       final _available = constraints.maxHeight - bottomPadding;
       final scrollable = _available < _minHeight;
       final space = scrollable ? _minHeight : _available;
-      print(space);
-      print(_available);
       final little = space / (n+1);
       final big = little * 2;
       final littleExpanded = little*3;
