@@ -17,4 +17,4 @@ You can mess with theme customization, you can save any number of spells for lat
 There is an "Info" section in the menu as well, with a list of all the relevant engine pieces that the Krarkulator can simulate, so you can see the actual images of the cards to understand how they work and what the various buttons of the app refer to.
 
 
-P.S.: The badass quote from the intro is ripped from one of the best human beings on this planet, Mark Rober (https://www.youtube.com/watch?v=MHTizZ_XcUM&t=14s)
+P.S.: The badass quote from the intro is ripped from one of the best human beings on this planet, Mark Rober (https://www.youtube.com/watch?v=MHTizZ_XcUM)
