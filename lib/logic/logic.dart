@@ -150,9 +150,9 @@ class Logic extends BlocBase {
   ///===== Constructor ===============================================
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
-    canCast = BlocVar.fromCorrelateLatest3<bool,int,Spell,Zone>(
-      mana, spell, zone,
-      map: (m,s,z) => _computeCanCast,
+    canCast = BlocVar.fromCorrelateLatest4<bool,int,int,Spell,Zone>(
+      mana, treasures, spell, zone,
+      map: (m,t,s,z) => _computeCanCast,
     );
   }
   bool get _computeCanCast => mana.value + treasures.value >= spell.value.manaCost 
@@ -260,6 +260,11 @@ class Logic extends BlocBase {
       for(int i=1; i<=n; ++i){
         ++_limit;
         _solveSpell();
+        treasures.value += artists.value 
+          * (1 + veyrans.value.clamp(0, double.infinity).toInt());
+          /// veyrans (as well as armonic prodigies) double the amount 
+          /// of treasures that the storm kiln artist makes!
+        onNextRefreshTreasures();
       }
     }
     refreshIf(!automatic);
