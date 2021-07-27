@@ -59,7 +59,7 @@ class Logic extends BlocBase {
     initVal: <String,Spell>{
       "Rite of Flame": Spell(1,2),
       "Desperate Ritual": Spell(2,3),
-      "Bonus Round": Spell(3,9,bonusRounds: 1),
+      "Bonus Round": Spell(3,0,bonusRounds: 1),
       "Twinflame (Krark)": Spell(2,0,krarksProduced: 1),
       "Heat Shimmer (Krark)": Spell(3,0,krarksProduced: 1),
     },
