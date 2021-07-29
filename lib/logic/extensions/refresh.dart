@@ -30,6 +30,9 @@ extension KrLogicRefresh on Logic {
   void onNextRefreshVeyrans(){
     onNextRefresh["veyrans"] = veyrans.refresh;
   }
+  void onNextRefreshProdigies(){
+    onNextRefresh["prodigies"] = prodigies.refresh;
+  }
   void onNextRefreshThumbs(){
     onNextRefresh["thumbs"] = thumbs.refresh;
   }

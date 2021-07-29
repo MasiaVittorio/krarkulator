@@ -1,5 +1,5 @@
 import 'package:krarkulator/everything.dart';
-// TODO: make the trigger display a bit more fancy??
+// MAYBE: make the trigger display a bit more fancy??
 
 
 class TriggersView extends StatelessWidget {

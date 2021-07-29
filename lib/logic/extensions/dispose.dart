@@ -3,6 +3,7 @@ import 'package:krarkulator/everything.dart';
 extension KrLogicDispose on Logic {
 
   void krDispose() {
+    onNextRefresh.clear();
     /// Board
     krarks.dispose();
     thumbs.dispose();
@@ -10,9 +11,11 @@ extension KrLogicDispose on Logic {
     artists.dispose();
     birgis.dispose();
     veyrans.dispose();
+    prodigies.dispose();
     bonusRounds.dispose();
     /// Spell
     spell.dispose();
+    spellBook.dispose();
     /// Status
     zone.dispose();
     mana.dispose();
@@ -21,13 +24,13 @@ extension KrLogicDispose on Logic {
     resolved.dispose();
     /// Triggers
     triggers.dispose();
+    /// Other
+    canCast.dispose();
     /// Settings
     automatic.dispose();
-    maxFlips.dispose();
+    maxActions.dispose();
 
-    canCast.dispose();
 
-    onNextRefresh.clear();
   }
 
 }

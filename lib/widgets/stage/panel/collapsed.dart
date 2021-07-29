@@ -29,7 +29,7 @@ class KrCollapsed extends StatelessWidget {
       ); 
       final Widget? subTitle = canCast 
         ? ((automatic && krarks > 1) 
-          ? Text("Until no bounce or ${logic.maxFlips.value} actions")
+          ? Text("Until no bounce or ${logic.maxActions.value} actions")
           : null) 
         : (mana + treasures < spell.manaCost 
           ? Text("Missing mana", style: error,)
@@ -38,7 +38,7 @@ class KrCollapsed extends StatelessWidget {
             : null));
       final VoidCallback? action = canCast ? (){
         if(automatic && krarks > 1) 
-          logic.keepCasting(forHowManyFlips: logic.maxFlips.value);
+          logic.keepCasting(forHowManyFlips: logic.maxActions.value);
         else {
           logic.cast(automatic: false);
           stage.mainPagesController.goToPage(KrPage.triggers);

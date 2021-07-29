@@ -15,7 +15,7 @@ class ExtraButtons extends StatelessWidget {
 
   final List<Widget> children;
   final EdgeInsets? margin;
-  final bool? separate;
+  final bool separate;
   final List<int>? flexes;
 
   static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
@@ -30,13 +30,10 @@ class ExtraButtons extends StatelessWidget {
           flex: (flexes?.checkIndex(i) ?? false) ? flexes![i] : 1,
         ),
     ];
+
     return Padding(
       padding: margin ?? defaultMargin,
-      child: Row(
-        children: (separate ?? true) 
-          ? expanded.separateWith(divider)
-          : expanded,
-      ),
+      child: Row(children: separate ? expanded.separateWith(divider): expanded),
     );
   }
 }
@@ -74,7 +71,10 @@ class ExtraButton extends StatelessWidget {
   final Widget? customIcon;
   final Color? customCircleColor;
   final bool twoLines;
-  final bool iconOverflow;
+  final DecorationImage? image;
+  final BorderRadius? borderRadius;
+  final Color? overrideTextColor;
+  final bool expandVertically;
 
   const ExtraButton({
     required this.icon,
@@ -88,14 +88,17 @@ class ExtraButton extends StatelessWidget {
     this.filled = false,
     this.customCircleColor,
     this.twoLines = false,
-    this.iconOverflow = false,
+    this.image,
+    this.borderRadius,
+    this.overrideTextColor,
+    this.expandVertically = false,
   });
 
   static const double _iconDimension = 38.0;
 
   @override
   Widget build(BuildContext context) {
-    final defaultSize = DefaultTextStyle.of(context).style.fontSize;
+    final defaultSize = DefaultTextStyle.of(context).style.fontSize!;
 
     final theme = Theme.of(context);
 
@@ -116,18 +119,8 @@ class ExtraButton extends StatelessWidget {
             child: Padding(
               padding: this.iconPadding,
               child: customIcon == null 
-                ? Icon(icon, size: iconSize)
-                : iconOverflow 
-                  ? Stack(clipBehavior: Clip.none, children: [
-                      Positioned(
-                        left: -_iconDimension,
-                        top: -_iconDimension,
-                        bottom: -_iconDimension,
-                        right: -_iconDimension,
-                        child: Center(child: customIcon),
-                      )
-                    ],)
-                  : customIcon,
+                ? Icon(icon, size: iconSize, color: overrideTextColor,)
+                : customIcon,
             ),
           ),
         ),
@@ -139,12 +132,17 @@ class ExtraButton extends StatelessWidget {
             child: this.forceExternalSize 
               ? AutoSizeText(
                 text,
-                maxLines: 1,
-                maxFontSize: defaultSize!,
+                maxLines: text.split("\n").length,
+                maxFontSize: defaultSize,
                 minFontSize: defaultSize / 2,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: overrideTextColor),
               )
-              : Text(text, textAlign: TextAlign.center),
+              : Text(
+                text, 
+                textAlign: TextAlign.center,
+                style: TextStyle(color: overrideTextColor),
+              ),
           ),
         ),
       ], 
@@ -153,6 +151,13 @@ class ExtraButton extends StatelessWidget {
       onLongPress: onLongPress,
       margin: EdgeInsets.zero,
       color: filled,
+      image: image,
+      borderRadius: borderRadius 
+        ?? SubSection.borderRadiusDefault,
+      mainAxisSize: expandVertically ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisAlignment: expandVertically 
+        ? MainAxisAlignment.center
+        : MainAxisAlignment.start,
     );
   }
 }

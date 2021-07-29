@@ -41,6 +41,10 @@ class Logic extends BlocBase {
     initVal: 0,
     key: "krarkulator logic blocVar veyrans",
   );
+  final BlocVar<int> prodigies = PersistentVar(
+    initVal: 0,
+    key: "krarkulator logic blocVar prodigies",
+  );
   final BlocVar<int> bonusRounds = PersistentVar(
     initVal: 0,
     key: "krarkulator logic blocVar bonusRounds",
@@ -102,6 +106,11 @@ class Logic extends BlocBase {
   ///===== Triggers ===============================================
   final BlocVar<List<ThumbTrigger>> triggers = BlocVar([]);
 
+  ///===== Other ==================================================
+  late BlocVar<bool> canCast;
+  bool get computeCanCast 
+    => mana.value + treasures.value >= spell.value.manaCost 
+    && zone.value == Zone.hand;
 
   ///===== Settings ===============================================
   final BlocVar<bool> automatic = PersistentVar(
@@ -110,13 +119,10 @@ class Logic extends BlocBase {
   );
   int limit = 0;
 
-  final BlocVar<int> maxFlips = PersistentVar(
+  final BlocVar<int> maxActions = PersistentVar(
     initVal: 100,
-    key: "krarkulator logic blocVar maxFlips"
+    key: "krarkulator logic blocVar maxActions",
   );
-
-
-  late BlocVar<bool> canCast;
 
   @override
   void dispose() => krDispose();
@@ -129,12 +135,5 @@ class Logic extends BlocBase {
       map: (m,t,s,z) => computeCanCast,
     );
   }
-
-  bool get computeCanCast => mana.value + treasures.value >= spell.value.manaCost 
-    && zone.value == Zone.hand;
-
-
-
-
 
 } 

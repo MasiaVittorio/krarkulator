@@ -26,7 +26,7 @@ class InfoPanel extends StatelessWidget {
               ),
               customCircleColor: Colors.transparent,
             ),
-            // TODO: something about the developer??
+            // MAYBE: something about the developer??
             ExtraButton(
               icon: KrIcons.counterSpell,
               text: "CounterSpell",

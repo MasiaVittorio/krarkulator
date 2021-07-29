@@ -18,10 +18,9 @@ class StatusCollapsed extends StatelessWidget {
       margin: padding3Collapsed,
     ),
   );
-  // TODO: maybe highlight mana if can't cast for missing mana and so on
+  // MAYBE: highlight mana if can't cast for missing mana and so on
   
 } 
-// TODO: maybe even add the background images on each button
 
 class _CollapsedBody extends StatelessWidget {
   const _CollapsedBody({ Key? key }) : super(key: key);
