@@ -9,6 +9,7 @@ extension KrLogicReset on Logic {
     birgis.set(0);
     scoundrels.set(0);
     veyrans.set(0);
+    prodigies.set(0);
     bonusRounds.set(0);
     /// Status
     zone.set(Zone.hand);

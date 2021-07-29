@@ -19,8 +19,8 @@ class BoardCollapsed extends StatelessWidget {
       width: width,
       child: SubSection(
         [Expanded(child: BlocVar.build6<int,int,int,int, int, int>(
-          logic.birgis, logic.veyrans, logic.scoundrels, logic.prodigies, 
-          logic.artists, logic.bonusRounds, 
+          logic.birgis, logic.veyrans, logic.scoundrels, 
+          logic.artists, logic.bonusRounds, logic.prodigies,
           builder: (_, b , v, s, a, r, p) => ExtraButtons(children: [
           IntToggle(
             title: "Krarks",
@@ -29,9 +29,6 @@ class BoardCollapsed extends StatelessWidget {
             image: decoration("assets/images/arts/Krark_the_Thumbless.jpg"),
             overrideTextColor: text,
           ),
-
-
-
           IntToggle(
             title: "Thumbs",
             variable: logic.thumbs,
