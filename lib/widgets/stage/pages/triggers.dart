@@ -35,7 +35,7 @@ class TriggersView extends StatelessWidget {
                   icon: null,
                   customIcon: Text("$copies"),
                   onTap: copies > 0 
-                    ? () => logic.solveTrigger(Flip.copy, automatic: false) 
+                    ? () => logic.solveKrarkTrigger(Flip.copy, automatic: false) 
                     : null,
                   text: "Heads\n(copy)",
                   twoLines: true,
@@ -45,7 +45,7 @@ class TriggersView extends StatelessWidget {
                   icon: null,
                   customIcon: Text("$bounces"),
                   onTap: bounces > 0 
-                    ? () => logic.solveTrigger(Flip.bounce, automatic: false) 
+                    ? () => logic.solveKrarkTrigger(Flip.bounce, automatic: false) 
                     : null,
                   text: "Tails\n(bounce)",
                   twoLines: true,
@@ -64,7 +64,7 @@ class TriggersView extends StatelessWidget {
                 ExtraButton(
                   customCircleColor: Colors.transparent,
                   icon: Icons.keyboard_arrow_right,
-                  onTap: () => logic.solveTrigger(flips.first, automatic: false),
+                  onTap: () => logic.solveKrarkTrigger(flips.first, automatic: false),
                   text: "Ok\n(${triggers.length > 1 ? "next" : "finish"})",
                   twoLines: true,
                 ),

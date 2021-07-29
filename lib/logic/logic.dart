@@ -3,9 +3,8 @@ import 'dart:math';
 
 import 'package:krarkulator/everything.dart';
 import 'package:sid_bloc/sid_bloc.dart';
-
-export 'sub_blocs/all.dart';
-
+import 'extensions/all.dart';
+export 'extensions/all.dart';
 
 class Logic extends BlocBase {
   
@@ -109,6 +108,7 @@ class Logic extends BlocBase {
     initVal: false,
     key: "krarkulator logic blocVar automatic",
   );
+  int limit = 0;
 
   final BlocVar<int> maxFlips = PersistentVar(
     initVal: 100,
@@ -119,305 +119,22 @@ class Logic extends BlocBase {
   late BlocVar<bool> canCast;
 
   @override
-  void dispose() {
-    /// Board
-    krarks.dispose();
-    thumbs.dispose();
-    scoundrels.dispose();
-    artists.dispose();
-    birgis.dispose();
-    veyrans.dispose();
-    bonusRounds.dispose();
-    /// Spell
-    spell.dispose();
-    /// Status
-    zone.dispose();
-    mana.dispose();
-    treasures.dispose();
-    storm.dispose();
-    resolved.dispose();
-    /// Triggers
-    triggers.dispose();
-    /// Settings
-    automatic.dispose();
-    maxFlips.dispose();
-
-    canCast.dispose();
-
-    onNextRefresh.clear();
-  }
+  void dispose() => krDispose();
 
   ///===== Constructor ===============================================
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
     canCast = BlocVar.fromCorrelateLatest4<bool,int,int,Spell,Zone>(
       mana, treasures, spell, zone,
-      map: (m,t,s,z) => _computeCanCast,
+      map: (m,t,s,z) => computeCanCast,
     );
   }
-  bool get _computeCanCast => mana.value + treasures.value >= spell.value.manaCost 
+
+  bool get computeCanCast => mana.value + treasures.value >= spell.value.manaCost 
     && zone.value == Zone.hand;
 
 
-  ///===== Refreshes ===============================================
-  void onNextRefreshZone(){
-    onNextRefresh["zone"] = zone.refresh;
-  }
-  void onNextRefreshTriggers(){
-    onNextRefresh["triggers"] = triggers.refresh;
-  }
-  void onNextRefreshMana(){
-    onNextRefresh["mana"] = mana.refresh;
-  }
-  void onNextRefreshTreasures(){
-    onNextRefresh["treasures"] = treasures.refresh;
-  }
-  void onNextRefreshTotalStormCount(){
-    onNextRefresh["totalStormCount"] = storm.refresh;
-  }
-  void onNextRefreshTotalResolved(){
-    onNextRefresh["totalResolved"] = resolved.refresh;
-  }
-  void onNextRefreshArtists(){
-    onNextRefresh["artists"] = artists.refresh;
-  }
-  void onNextRefreshScoundrels(){
-    onNextRefresh["scoundrels"] = scoundrels.refresh;
-  }
-  void onNextRefreshVeyrans(){
-    onNextRefresh["veyrans"] = veyrans.refresh;
-  }
-  void onNextRefreshThumbs(){
-    onNextRefresh["thumbs"] = thumbs.refresh;
-  }
-  void onNextRefreshBirgis(){
-    onNextRefresh["birgis"] = birgis.refresh;
-  }
-  void onNextRefreshBonusRounds(){
-    onNextRefresh["bonusRounds"] = bonusRounds.refresh;
-  }
-  void onNextRefreshKrarks(){
-    onNextRefresh["krarks"] = krarks.refresh;
-  }
-
-  void refreshIf(bool v){
-    if(v) refresh();
-  }
-  void refresh(){
-    onNextRefresh.values.forEach((f) => f());
-    onNextRefresh.clear();
-  }
 
 
-  ///===== Methods ===============================================
-
-  /// Casts the spell and generates triggers
-  void cast({required bool automatic}) {
-    assert(_computeCanCast);
-
-    triggers.value.clear();
-    onNextRefreshTriggers();
-
-    mana.value -= spell.value.manaCost; 
-    if(mana.value < 0){
-      final int treasuresToSpend = 0 - mana.value;
-      mana.value = 0;
-      treasures.value -= treasuresToSpend;
-      onNextRefreshTreasures();
-    }
-    onNextRefreshMana();
-
-    ++storm.value;
-    onNextRefreshTotalStormCount();
-
-    if(birgis.value > 0){
-      mana.value += birgis.value;
-      onNextRefreshMana();
-    }
-
-    zone.value = Zone.stack;
-    onNextRefreshZone();
-
-    final int n = howManyTriggers;
-
-    if(birgis.value > 0){
-      mana.value += birgis.value;
-      onNextRefreshMana();
-    }
-
-    if(artists.value > 0){
-      treasures.value += artists.value;
-      onNextRefreshTreasures();
-    }
-
-    for(int i=0; i<n; i++){
-      triggers.value.add(ThumbTrigger(thumbs.value, rng));
-      onNextRefreshTriggers();
-    }
-    
-    if(bonusRounds.value > 0){
-      final int n = bonusRounds.value + 0;
-      for(int i=1; i<=n; ++i){
-        ++_limit;
-        _solveSpell();
-        treasures.value += artists.value 
-          * (1 + veyrans.value.clamp(0, double.infinity).toInt());
-          /// veyrans (as well as armonic prodigies) double the amount 
-          /// of treasures that the storm kiln artist makes!
-        onNextRefreshTreasures();
-      }
-    }
-    refreshIf(!automatic);
-  }
-
-  int get howManyTriggers => krarks.value * (1 + veyrans.value);
-
-  void solveTrigger(Flip choice, {required bool automatic}){
-    triggers.value.removeLast();
-    onNextRefreshTriggers();
-    if(choice == Flip.bounce){
-      zone.value = Zone.hand;
-      onNextRefreshZone();
-      /// could already be bounced in hand from another trigger, but that does not
-      /// change how the current trigger can still copy the latest known spell information
-      /// and setting zone = hand more than one time has no effect
-    } else {
-
-      _solveSpell();
-
-      if(artists.value > 0){
-        treasures.value += artists.value 
-          * (1 + veyrans.value.clamp(0, double.infinity).toInt());
-          /// veyrans (as well as armonic prodigies) double the amount 
-          /// of treasures that the storm kiln artist makes!
-        onNextRefreshTreasures();
-      }
-      if(scoundrels.value > 0){
-        treasures.value += scoundrels.value * 2;
-        onNextRefreshTreasures();
-      }
-
-      /// if this was the last trigger, and the spell was never bounced
-      /// you should add one resolved spell (the orignal card) to the total 
-      /// resolved count, and resolve that spell as well by producing the mana
-      if(triggers.value.isEmpty && zone.value == Zone.stack){
-        _solveSpell();
-        zone.value = Zone.graveyard;
-        onNextRefreshZone();
-      }
-    }
-
-
-    refreshIf(!automatic);
-  }
-
-  void _solveSpell(){
-    resolved.value++;
-    onNextRefreshTotalResolved();
-    /// resolve
-    if(spell.value.chance == 1.0 || rng.nextDouble() < spell.value.chance){
-      
-      if(spell.value.manaProduct != 0){
-        mana.value += spell.value.manaProduct;
-        onNextRefreshMana();
-      }
-      if(spell.value.artistsProduced > 0){
-        artists.value += spell.value.artistsProduced;
-        onNextRefreshArtists();
-      }
-      if(spell.value.krarksProduced > 0){
-        krarks.value += spell.value.krarksProduced;
-        onNextRefreshKrarks();
-      }
-      if(spell.value.scoundrelProduced > 0){
-        scoundrels.value += spell.value.scoundrelProduced;
-        onNextRefreshScoundrels();
-      }
-      if(spell.value.treasuresProduct > 0){
-        treasures.value += spell.value.treasuresProduct;
-        onNextRefreshTreasures();
-      }
-      if(spell.value.veyransProduced > 0){
-        veyrans.value += spell.value.veyransProduced;
-        onNextRefreshVeyrans();
-      }
-      if(spell.value.thumbsProduced > 0){
-        thumbs.value += spell.value.thumbsProduced;
-        onNextRefreshThumbs();
-      }
-      if(spell.value.birgisProduced > 0){
-        birgis.value += spell.value.birgisProduced;
-        onNextRefreshBirgis();
-      }
-      if(spell.value.bonusRounds > 0){
-        bonusRounds.value += spell.value.bonusRounds;
-        onNextRefreshBonusRounds();
-      }
-    }
-  }
-
-  void autoSolveTrigger(){
-    ThumbTrigger trigger = triggers.value.last;
-    Flip choice;
-    if(zone.value == Zone.hand){ /// If already bounced, try to copy
-      if(trigger.containsCopy){
-        choice = Flip.copy;
-      } else {
-        choice = Flip.bounce;
-      }
-    } else { /// If still on the stack, try to bounce
-      if(trigger.containsBounce){
-        choice = Flip.bounce;
-      } else {
-        choice = Flip.copy;
-      }
-    }
-    solveTrigger(choice, automatic: true);
-  }
-
-  int _limit = 0;
-  void keepCasting({
-    required int forHowManyFlips,
-  }){
-    assert(forHowManyFlips > 0);
-    assert(forHowManyFlips < 1000000000);
-
-    _limit = 0;
-    while(_computeCanCast && _limit < forHowManyFlips){
-      cast(automatic: true);
-      final n = triggers.value.length;
-      for(int i=0; i<n; ++i){
-        _limit += triggers.value.last.flips.length;
-        autoSolveTrigger();
-      }
-    }
-
-    refresh();
-  }
-
-
-
-  void reset(){
-    /// Board
-    krarks.set(1);
-    thumbs.set(0);
-    artists.set(0);
-    birgis.set(0);
-    scoundrels.set(0);
-    veyrans.set(0);
-    bonusRounds.set(0);
-    /// Status
-    zone.set(Zone.hand);
-    treasures.set(0);
-    mana.set(0);
-    storm.set(0);
-    resolved.set(0);
-    /// Spell
-    spell.set(Spell(0,0));
-    /// Triggers
-    triggers.value.clear();
-    triggers.refresh();
-    automatic.set(false);
-  }
 
 } 
