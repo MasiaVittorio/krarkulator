@@ -105,8 +105,6 @@ class BoardExpanded extends StatelessWidget {
     final decoration = decorationBuilder(theme);
     final text = theme.brightness.contrast;
 
-    // TODO: images
-
     return SubSection(
       [
         Expanded(child: ExtraButtons(children: [
