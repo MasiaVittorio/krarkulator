@@ -51,6 +51,17 @@ class InfoPanel extends StatelessWidget {
 
         KrWidgets.height10,
 
+        SubSection([
+          ListTile(
+            // TODO: check this icon
+            leading: Icon(McIcons.youtube),
+            title: Text("Video tutorial"),
+            onTap: KRActions.openVideoTutorial,
+          ),
+        ]),
+
+        KrWidgets.height10,
+
         ExtraButtons(children: [
           ExtraButton(
             onTap: KRActions.openDiscordInvite,

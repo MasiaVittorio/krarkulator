@@ -16,6 +16,9 @@ class KRActions{
       ? KRUris.counterSpellPlayStore : KRUris.counterSpellAppStore
     );
   }
+  static void openVideoTutorial() async {
+    _launchUrl(KRUris.videoTutorial);
+  }
   static void mailMe([String body = ""]) async {
     _launchUrl(KRUris.mailAction + "&body=$body");
   }

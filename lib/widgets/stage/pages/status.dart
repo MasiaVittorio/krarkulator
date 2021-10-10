@@ -47,8 +47,8 @@ class StatusExpanded extends StatelessWidget {
       [
         Expanded(child: _CollapsedBody()),
         ExtraButtons(children: [
-          IntToggle(variable: logic.storm, title: "Storm", onlyReset: true,),
-          IntToggle(variable: logic.resolved, title: "Resolved", onlyReset: true,),
+          IntToggle(variable: logic.storm, title: "Storm"),
+          IntToggle(variable: logic.resolved, title: "Resolved"),
         ]),
         
       ], 
