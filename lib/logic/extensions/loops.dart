@@ -23,11 +23,15 @@ extension KrLogicLoops on Logic {
 
   void keepCasting({
     required int forHowManyFlips,
+    required StageData stage,
   }){
     assert(forHowManyFlips > 0);
     assert(forHowManyFlips < 1000000000);
+    turnOnLogs();
+    // TODO: write logs everywhere
 
     limit = 0;
+    log("enter automatic cast");
     while(computeCanCast && limit < forHowManyFlips){
       cast(automatic: true);
       final n = triggers.value.length;
@@ -38,6 +42,49 @@ extension KrLogicLoops on Logic {
     }
 
     refresh();
+
+    logsEnabled = false;
+    stage.showAlert(
+      LogsAlert(lines: <String>[
+        if(deletedLogLines > 0)
+          "DELETED LINES: $deletedLogLines",
+        ...logs,
+      ]),
+      size: 450,
+    );
   }
 
+  void turnOnLogs(){
+    logs.clear();
+    deletedLogLines = 0;
+    logsEnabled = true;
+  }
+
+}
+
+
+class LogsAlert extends StatelessWidget {
+  final List<String> lines;
+  const LogsAlert({ 
+    required this.lines,
+    Key? key 
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return HeaderedAlert("Logs", 
+      alreadyScrollableChild: true,
+      child: ListView.builder(
+        itemCount: lines.length,
+        itemBuilder: (_, i ) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: Text(lines[lines.length - 1 - i]),
+        ),
+        scrollDirection: Axis.vertical,
+        itemExtent: 20,
+        reverse: true,
+      ),
+    );
+  }
 }

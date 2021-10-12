@@ -12,7 +12,7 @@ class KrCollapsed extends StatelessWidget {
 
 
     return logic.automatic.build((_, automatic)
-    => logic.krarks.build((_, krarks) 
+    => logic.canLoop.build((_, canLoop) 
     => logic.zone.build((_, zone)
     => logic.mana.build((_, mana)
     => logic.treasures.build((_, treasures)
@@ -24,11 +24,11 @@ class KrCollapsed extends StatelessWidget {
         child: Icon(ManaIcons.instant),
       );
       final Widget title = AnimatedText(canCast 
-        ? ((automatic && krarks > 1) ? "Keep recasting" : "Cast once")
+        ? (logic.shouldLoop ? "Keep recasting" : "Cast once")
         : "Can't cast spell"
       ); 
       final Widget? subTitle = canCast 
-        ? ((automatic && krarks > 1) 
+        ? (logic.shouldLoop 
           ? Text("Until no bounce or ${logic.maxActions.value} actions")
           : null) 
         : (mana + treasures < spell.manaCost 
@@ -37,8 +37,11 @@ class KrCollapsed extends StatelessWidget {
             ? Text("Spell out of hand", style: error,)
             : null));
       final VoidCallback? action = canCast ? (){
-        if(automatic && krarks > 1) 
-          logic.keepCasting(forHowManyFlips: logic.maxActions.value);
+        if(logic.shouldLoop) 
+          logic.keepCasting(
+            forHowManyFlips: logic.maxActions.value,
+            stage: stage,
+          );
         else {
           logic.cast(automatic: false);
           stage.mainPagesController.goToPage(KrPage.triggers);
@@ -73,7 +76,7 @@ class KrCollapsed extends StatelessWidget {
         icon: Icons.repeat, 
         text: automatic ? "automatic" : "manual", 
         onChanged: (v){
-          if(krarks <= 1) logic.automatic.setDistinct(false);
+          if(canLoop == false) logic.automatic.setDistinct(false);
           else logic.automatic.setDistinct(v);
         },
         value: automatic,
@@ -84,7 +87,7 @@ class KrCollapsed extends StatelessWidget {
           onTap: action,
           child: tile,
         ),),
-        if(krarks > 1) ...<Widget>[
+        if(canLoop) ...<Widget>[
           KrWidgets.verticalDivider,
           Container(
             alignment: Alignment.center,

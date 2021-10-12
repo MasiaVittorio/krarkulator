@@ -18,6 +18,12 @@ class InfoPanel extends StatelessWidget {
         SubSection([
           ExtraButtons(children: [
             ExtraButton(
+              icon: McIcons.github,
+              text: "Source code",
+              onTap: KRActions.githubPage,
+              customCircleColor: Colors.transparent,
+            ),
+            ExtraButton(
               icon: McIcons.text_box_check_outline,
               text: "Licenses",
               onTap: () => stage.showAlert(
@@ -53,7 +59,6 @@ class InfoPanel extends StatelessWidget {
 
         SubSection([
           ListTile(
-            // TODO: check this icon
             leading: Icon(McIcons.youtube),
             title: Text("Video tutorial"),
             onTap: KRActions.openVideoTutorial,

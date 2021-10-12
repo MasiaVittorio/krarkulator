@@ -25,7 +25,7 @@ class BoardCollapsed extends StatelessWidget {
           IntToggle(
             title: "Krarks",
             variable: logic.krarks,
-            defaultVal: 1,
+            defaultVal: 0,
             image: decoration("assets/images/arts/Krark_the_Thumbless.jpg"),
             overrideTextColor: text,
           ),
@@ -111,7 +111,7 @@ class BoardExpanded extends StatelessWidget {
           IntToggle(
             title: "Krarks",
             variable: logic.krarks,
-            defaultVal: 1,
+            defaultVal: 0,
             image: decoration("assets/images/arts/Krark_the_Thumbless.jpg"),
             overrideTextColor: text,
           ),

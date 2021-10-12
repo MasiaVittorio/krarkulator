@@ -46,7 +46,7 @@ extension KrLogicRefresh on Logic {
     onNextRefresh["krarks"] = krarks.refresh;
   }
 
-  void refreshIf(bool v){
+  void refreshUIIf(bool v){
     if(v) refresh();
   }
   void refresh(){

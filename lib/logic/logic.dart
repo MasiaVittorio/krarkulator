@@ -112,6 +112,27 @@ class Logic extends BlocBase {
     => mana.value + treasures.value >= spell.value.manaCost 
     && zone.value == Zone.hand;
 
+  late BlocVar<bool> canLoop;
+  int computeHowManyKrarkTriggers(
+    int k, //krarks
+    int v, //veyrans
+    int p, //prodigies
+  ) => k * (1 + v + p);
+  bool get shouldLoop => canLoop.value && automatic.value;
+
+  bool logsEnabled = false;
+  List<String> logs = <String>[];
+  int deletedLogLines = 0;
+  static const int maxLogLines = 1000; 
+  void log(String string){
+    if(!logsEnabled) return;
+    while(logs.length>maxLogLines){
+      logs.removeAt(0);
+      ++deletedLogLines;
+    }
+    logs.add(string);
+  }
+
   ///===== Settings ===============================================
   final BlocVar<bool> automatic = PersistentVar(
     initVal: false,
@@ -133,6 +154,10 @@ class Logic extends BlocBase {
     canCast = BlocVar.fromCorrelateLatest4<bool,int,int,Spell,Zone>(
       mana, treasures, spell, zone,
       map: (m,t,s,z) => computeCanCast,
+    );
+    canLoop = BlocVar.fromCorrelateLatest3<bool,int,int,int>(
+      krarks, veyrans, prodigies,
+      map: (k,v,p) => computeHowManyKrarkTriggers(k,v,p) > 1,
     );
   }
 
