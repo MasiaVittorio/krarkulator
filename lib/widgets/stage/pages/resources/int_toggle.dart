@@ -33,7 +33,10 @@ class IntToggle extends StatelessWidget {
     customCircleColor: onlyReset ? null : Colors.transparent,
     customIcon: Text(
       "$val", 
-      style: TextStyle(color: overrideTextColor),
+      style: TextStyle(
+        color: overrideTextColor,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     onTap: onlyReset ? (){} : () => variable.set(val+1),
     onLongPress: () => variable.set(defaultVal),

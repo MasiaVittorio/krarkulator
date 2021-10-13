@@ -28,7 +28,6 @@ extension KrLogicLoops on Logic {
     assert(forHowManyFlips > 0);
     assert(forHowManyFlips < 1000000000);
     turnOnLogs();
-    // TODO: write logs everywhere
 
     limit = 0;
     log("enter automatic cast");

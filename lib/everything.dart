@@ -1,4 +1,4 @@
-export 'package:flutter/material.dart';
+export 'package:flutter/material.dart' hide AnimatedScale; 
 
 export 'models/all.dart';
 export 'data/all.dart';

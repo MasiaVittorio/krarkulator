@@ -28,7 +28,10 @@ class SpellEditor extends StatelessWidget {
       customCircleColor: Colors.transparent,
       customIcon: Text(
         content(spell), 
-        style: TextStyle(color: overrideTextColor),
+        style: TextStyle(
+          color: overrideTextColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       text: title,
       twoLines: title.contains("\n"),

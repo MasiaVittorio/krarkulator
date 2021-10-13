@@ -29,7 +29,10 @@ extension KrLogicEngine on Logic {
       prodigies.value,
     );
     if(n > 0) _triggerKrark(n);
-    else solveSpell(); // In case of zero krarks the spell has to just resolve    
+    else {
+      solveSpell(); // In case of zero krarks the spell has to just resolve    
+      zone.value = Zone.graveyard;
+    }
     
     _triggerBonusRound();
 
