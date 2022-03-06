@@ -24,13 +24,17 @@ dependencies:
   flutter:
     sdk: flutter
   sid_ui:
-    git: https://github.com/MasiaVittorio/sid_ui.git
+    path: ../sid_ui
+    # git: https://github.com/MasiaVittorio/sid_ui.git
   sid_utils:
-    git: https://github.com/MasiaVittorio/sid_utils.git
+    path: ../sid_utils
+    # git: https://github.com/MasiaVittorio/sid_utils.git
   sid_bloc:
-    git: https://github.com/MasiaVittorio/sid_bloc.git
+    path: ../sid_bloc
+    # git: https://github.com/MasiaVittorio/sid_bloc.git
   stage:
-    git: https://github.com/MasiaVittorio/stage_2.git
+    path: ../stage_2
+    # git: https://github.com/MasiaVittorio/stage_2.git
   url_launcher: ^6.0.8
 
 

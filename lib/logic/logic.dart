@@ -2,16 +2,13 @@
 import 'dart:math';
 
 import 'package:krarkulator/everything.dart';
-import 'package:sid_bloc/sid_bloc.dart';
-import 'extensions/all.dart';
 export 'extensions/all.dart';
 
 class Logic extends BlocBase {
-  
   /// throws a runtime error if the context has no logic
   static Logic of(BuildContext context) => BlocProvider.of<Logic>(context)!;
 
-  final Map<String,Function> onNextRefresh = <String,Function>{};
+  final Map<String, Function> onNextRefresh = <String, Function>{};
 
   late Random rng;
 
@@ -50,29 +47,26 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar bonusRounds",
   );
 
-
   ///==== Spell ==============================================
   final BlocVar<Spell> spell = PersistentVar(
-    initVal: Spell(0,0),
+    initVal: Spell(0, 0),
     key: "krarkulator logic blocVar spell",
     fromJson: (j) => Spell.fromJson(j as Map),
     toJson: (s) => s.toJson,
   );
-  final BlocVar<Map<String,Spell>> spellBook = PersistentVar(
-    initVal: <String,Spell>{
-      "Rite of Flame": Spell(1,2),
-      "Desperate Ritual": Spell(2,3),
-      "Bonus Round": Spell(3,0,bonusRounds: 1),
-      "Twinflame (Krark)": Spell(2,0,krarksProduced: 1),
-      "Heat Shimmer (Krark)": Spell(3,0,krarksProduced: 1),
+  final BlocVar<Map<String, Spell>> spellBook = PersistentVar(
+    initVal: <String, Spell>{
+      "Rite of Flame": Spell(1, 2),
+      "Desperate Ritual": Spell(2, 3),
+      "Bonus Round": Spell(3, 0, bonusRounds: 1),
+      "Twinflame (Krark)": Spell(2, 0, krarksProduced: 1),
+      "Heat Shimmer (Krark)": Spell(3, 0, krarksProduced: 1),
     },
     key: "krarkulator logic blocVar spellBook",
-    fromJson: (j) => {for(final e in (j as Map).entries) 
-      e.key: Spell.fromJson(e.value)
-    },
-    toJson: (m) => {for(final e in m.entries) e.key: e.value.toJson},
+    fromJson: (j) =>
+        {for (final e in (j as Map).entries) e.key: Spell.fromJson(e.value)},
+    toJson: (m) => {for (final e in m.entries) e.key: e.value.toJson},
   );
-
 
   ///==== Status ==============================================
   final BlocVar<Zone> zone = PersistentVar(
@@ -102,31 +96,31 @@ class Logic extends BlocBase {
     key: "krarkulator logic blocVar resolved",
   );
 
-
   ///===== Triggers ===============================================
   final BlocVar<List<ThumbTrigger>> triggers = BlocVar([]);
 
   ///===== Other ==================================================
   late BlocVar<bool> canCast;
-  bool get computeCanCast 
-    => mana.value + treasures.value >= spell.value.manaCost 
-    && zone.value == Zone.hand;
+  bool get computeCanCast =>
+      mana.value + treasures.value >= spell.value.manaCost &&
+      zone.value == Zone.hand;
 
   late BlocVar<bool> canLoop;
   int computeHowManyKrarkTriggers(
     int k, //krarks
     int v, //veyrans
     int p, //prodigies
-  ) => k * (1 + v + p);
+  ) =>
+      k * (1 + v + p);
   bool get shouldLoop => canLoop.value && automatic.value;
 
   bool logsEnabled = false;
   List<String> logs = <String>[];
   int deletedLogLines = 0;
-  static const int maxLogLines = 1000; 
-  void log(String string){
-    if(!logsEnabled) return;
-    while(logs.length>maxLogLines){
+  static const int maxLogLines = 1000;
+  void log(String string) {
+    if (!logsEnabled) return;
+    while (logs.length > maxLogLines) {
       logs.removeAt(0);
       ++deletedLogLines;
     }
@@ -151,14 +145,18 @@ class Logic extends BlocBase {
   ///===== Constructor ===============================================
   Logic() {
     rng = Random(DateTime.now().millisecondsSinceEpoch);
-    canCast = BlocVar.fromCorrelateLatest4<bool,int,int,Spell,Zone>(
-      mana, treasures, spell, zone,
-      map: (m,t,s,z) => computeCanCast,
+    canCast = BlocVar.fromCorrelateLatest4<bool, int, int, Spell, Zone>(
+      mana,
+      treasures,
+      spell,
+      zone,
+      map: (m, t, s, z) => computeCanCast,
     );
-    canLoop = BlocVar.fromCorrelateLatest3<bool,int,int,int>(
-      krarks, veyrans, prodigies,
-      map: (k,v,p) => computeHowManyKrarkTriggers(k,v,p) > 1,
+    canLoop = BlocVar.fromCorrelateLatest3<bool, int, int, int>(
+      krarks,
+      veyrans,
+      prodigies,
+      map: (k, v, p) => computeHowManyKrarkTriggers(k, v, p) > 1,
     );
   }
-
-} 
+}
