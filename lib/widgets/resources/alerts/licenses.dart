@@ -2,7 +2,7 @@ import 'package:krarkulator/everything.dart';
 
 
 class LicensesAlert extends StatelessWidget {
-  const LicensesAlert();
+  const LicensesAlert({Key? key}) : super(key: key);
 
   static showText(StageData stage, String text, String title)=> stage.showAlert(
     HeaderedAlert('"$title" Package', 
@@ -38,26 +38,26 @@ class LicensesAlert extends StatelessWidget {
       child: Column(children: <Widget>[
         
         const Section([
-          const SectionTitle("Disclaimer"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.wizardFanContentPolicy),
+          SectionTitle("Disclaimer"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.wizardFanContentPolicy),
           ),
         ]),
         
         const Section([
-          const SectionTitle("Images"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.scryfallImagePolicy),
+          SectionTitle("Images"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.scryfallImagePolicy),
           ),
         ]),
 
         const Section(<Widget>[
-          const SectionTitle("Icons"),
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: const Text(CSLicenses.iconsLicenses),
+          SectionTitle("Icons"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+            child: Text(CSLicenses.iconsLicenses),
           ),
         ]),
 

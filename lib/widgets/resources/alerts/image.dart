@@ -6,7 +6,7 @@ class ImageAlert extends StatelessWidget {
 
   static const mtgAspectRatio = 63/88;
 
-  const ImageAlert(this.image);
+  const ImageAlert(this.image, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

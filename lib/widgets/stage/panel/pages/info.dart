@@ -1,4 +1,3 @@
-import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
 import 'dart:math';
 
@@ -10,14 +9,14 @@ class InfoPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
     final query = MediaQuery.of(context);
-      
+    
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         const PanelTitle("Info"),
         SubSection([
           ExtraButtons(children: [
-            ExtraButton(
+            const ExtraButton(
               icon: McIcons.github,
               text: "Source code",
               onTap: KRActions.githubPage,
@@ -33,7 +32,7 @@ class InfoPanel extends StatelessWidget {
               customCircleColor: Colors.transparent,
             ),
             // MAYBE: something about the developer??
-            ExtraButton(
+            const ExtraButton(
               icon: KrIcons.counterSpell,
               text: "CounterSpell",
               onTap: KRActions.reviewCounterSpell,
@@ -46,8 +45,8 @@ class InfoPanel extends StatelessWidget {
 
         SubSection([
           ListTile(
-            leading: Icon(McIcons.cards_outline),
-            title: Text("Key engine cards"),
+            leading: const Icon(McIcons.cards_outline),
+            title: const Text("Key engine cards"),
             onTap: () => stage.showAlert(
               KeyCardsAlert(query.size.width),
               size: 414,
@@ -57,7 +56,7 @@ class InfoPanel extends StatelessWidget {
 
         KrWidgets.height10,
 
-        SubSection([
+        const SubSection([
           ListTile(
             leading: Icon(McIcons.youtube),
             title: Text("Video tutorial"),
@@ -67,7 +66,7 @@ class InfoPanel extends StatelessWidget {
 
         KrWidgets.height10,
 
-        ExtraButtons(children: [
+        const ExtraButtons(children: [
           ExtraButton(
             onTap: KRActions.openDiscordInvite,
             icon: McIcons.discord,
@@ -92,7 +91,7 @@ class InfoPanel extends StatelessWidget {
               ? '"Double or Nothing."'
               : "I suck at playing Krark, but I'm good at coding.\nWhich means...\nI'm actually really good at playing Krark.",
             textAlign: TextAlign.center,
-            style: TextStyle(fontStyle: FontStyle.italic),
+            style: const TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
       ],

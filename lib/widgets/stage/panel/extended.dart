@@ -6,7 +6,7 @@ class KrExtended extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StageExtendedPanel<PanelPage>(
+    return const StageExtendedPanel<PanelPage>(
       canvasBackground: true,
       children: {
         PanelPage.dice: RandomPanel(),

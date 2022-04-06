@@ -2,15 +2,18 @@ import 'everything.dart';
 import 'widgets/stage.dart';
 
 void main() {
-  runApp(Krarkulator());
+  runApp(const Krarkulator());
 }
 
 class Krarkulator extends StatelessWidget {
+
+  const Krarkulator({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) 
     => const MaterialApp(
       title: 'Krarkulator',
-      home: const HomePage(),
+      home: HomePage(),
     );
 }
 
@@ -40,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: logic,
-      child: KrarkStage(),
+      child: const KrarkStage(),
     );
   }
 }

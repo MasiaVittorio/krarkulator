@@ -8,7 +8,7 @@ class KRActions{
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      print('Could not launch $url');
+      debugPrint('Could not launch $url');
     }
   } 
   static void reviewCounterSpell() async {

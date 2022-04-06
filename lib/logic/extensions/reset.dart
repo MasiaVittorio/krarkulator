@@ -1,27 +1,22 @@
-import 'package:krarkulator/everything.dart';
+import 'dart:math';
 
-extension KrLogicReset on Logic {
+import '../logic.dart';
+
+extension KrReset on Logic {
   void reset(){
-    /// Board
-    krarks.set(1);
-    thumbs.set(0);
-    artists.set(0);
-    birgis.set(0);
-    scoundrels.set(0);
-    veyrans.set(0);
-    prodigies.set(0);
-    bonusRounds.set(0);
-    /// Status
-    zone.set(Zone.hand);
-    treasures.set(0);
-    mana.set(0);
-    storm.set(0);
-    resolved.set(0);
-    /// Spell
-    spell.set(Spell(0,0));
-    /// Triggers
-    triggers.value.clear();
-    triggers.refresh();
-    automatic.set(false);
+    board.value.reset();
+    graveyard.value.clear();
+    hand.value.clear();
+    manaPool.value.empty();
+    replacement.value = null;
+    resolvedCount.value = {};
+    rng = Random(DateTime.now().millisecondsSinceEpoch);
+    selectedSpellName.value = null;
+    stack.value.clear();
+    storm.value = 0;
+    copiedCount.value = 0;
+    treasures.value = 0;
+
+    refreshUI();
   }
 }

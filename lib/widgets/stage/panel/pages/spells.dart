@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
+import 'package:krarkulator/widgets/stage/pages/all.dart';
 
 class SpellsPanel extends StatelessWidget {
   const SpellsPanel({ Key? key }) : super(key: key);
@@ -11,85 +9,92 @@ class SpellsPanel extends StatelessWidget {
     final logic = Logic.of(context);
     final stage = Stage.of(context)!;
 
-    return logic.spellBook.build((_, _book) 
-      => logic.spell.build((_, _current){
-        final jsonBook = <String,String>{
-          for(final e in _book.entries)
-            e.key: jsonEncode(e.value.toJson),
-        };
-        final currentJson = jsonEncode(_current.toJson);
+    return logic.spellBook.build((_, _book) => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const PanelTitle("Saved Spells"),
 
-        final saved = jsonBook.values.contains(currentJson);
+        for(final spell in _book.values)
+          SpellTile(spell),
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            PanelTitle("Saved Spells"),
+        KrWidgets.divider,
 
-            for(final e in jsonBook.entries)
-              SpellTile(e.key, _book[e.key]!, e.value, currentJson),
-
-            KrWidgets.divider,
-
-            ListTile(
-              leading: Icon(saved ? Icons.check : Icons.add),
-              title: Text(saved ? "Current spell saved" : "Save current spell"),
-              onTap: saved ? null : () => stage.showAlert(
-                InsertAlert(
-                  labelText: "Name the spell you're saving",
-                  onConfirm: (name) => logic.spellBook.edit((book){
-                    book[name] = _current;
-                  }),
-                ),
-                size: InsertAlert.height,
-              ),
-            ),
-          ],
-        );
-      },),
-    );
+        ListTile(
+          leading: const Icon(Icons.add),
+          title: const Text("New spell"),
+          onTap: () => stage.showAlert(
+            SpellEditor(onConfirm: (ns) => logic.newSpellToSpellBook(ns, null)),
+            size: SpellEditor.height,
+          ),
+        ),
+      ],
+    ),);
   }
 }
 
 class SpellTile extends StatelessWidget {
-  const SpellTile(
-    this.name, 
-    this.spell,
-    this.spellJson, 
-    this.currentJson, 
-    {Key? key}
-  ) : super(key: key);
 
-  final String name;
+  const SpellTile(this.spell, {
+    Key? key,
+  }) : super(key: key);
+
   final Spell spell;
-  final String spellJson;
-  final String currentJson;
 
   @override
   Widget build(BuildContext context) {
     final logic = Logic.of(context);
-    final stage = Stage.of<KrPage,dynamic>(context)!;
+    final stage = Stage.of(context)!;
 
-    return RadioListTile(
-      value: spellJson, 
-      groupValue: currentJson, 
-      onChanged: (_){
-        logic.spell.set(spell);
+    void _edit() => stage.showAlert(
+      SpellEditor(
+        initialSpell: spell,
+        onConfirm: (newSpell) => logic.newSpellToHand(
+          newSpell, 
+          spell.name, 
+          null,
+        ),
+        alreadySavedSpells: {...logic.spellBook.value.keys},
+      ),
+      replace: true,
+      size: SpellEditor.height,
+    );
+
+    return SimpleTile(
+      title: Text(spell.name),
+      trailing: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        reverse: true,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: spell.manaCost.costWidget(),
+      ),
+      expandTrailing: true,
+      height: 64,
+      onTap: () {
+        logic.newSpellToHand(spell, null, null);
         stage.closePanelCompletely();
         stage.mainPagesController.goToPage(KrPage.spell);
+        logic.selectedSpellName.set(spell.name);
       },
-      title: Text(name),
-      secondary: IconButton(
-        icon: KrWidgets.deleteIcon,
-        onPressed: () => stage.showAlert(
-          ConfirmAlert(
-            action: (){
-              logic.spellBook.value.remove(name);
-              logic.spellBook.refresh();
-            },
-          ),
-          size: ConfirmAlert.height,
+      onLongPress: () => stage.showAlert(
+        AlternativesAlert(
+          alternatives: [
+            Alternative(
+              title: "Edit", 
+              icon: Icons.edit_outlined, 
+              action: _edit,
+            ),
+            Alternative(
+              title: "Delete", 
+              icon: Icons.delete_forever_outlined, 
+              action: () => logic.deleteFromSavedSpells(spell.name),
+              color: KRColors.delete,
+              autoClose: true,
+            ),
+          ], 
+          label: "Saved spell: ${spell.name}",
         ),
+        size: AlternativesAlert.heightCalc(2)
       ),
     );
   }

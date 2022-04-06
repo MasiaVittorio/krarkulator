@@ -41,7 +41,7 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
 
   @override
   void dispose(){
-    this.controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -66,9 +66,9 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
 
   /// extracts a new random number
   void roll(){
-    this.setState((){
+    setState((){
       if(type == _Type.coin){
-        this.result = random.nextInt(2);
+        result = random.nextInt(2);
         //0 = tails / 1 = heads
       } else if (type == _Type.d6){
         result = random.nextInt(6) + 1;
@@ -76,7 +76,7 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
         result = random.nextInt(20) + 1;
       }
     });
-    this.bounce();
+    bounce();
   }
 
 
@@ -109,12 +109,13 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
       // Select the desired dice (d6, d10, d20)
       RadioSliderOf<_Type>(
         margin: const EdgeInsets.symmetric(horizontal: 10.0),
+        // ignore: unnecessary_this
         onSelect: (t) => this.setState((){
-          this.type = t;
-          this.result = null;
+          type = t;
+          result = null;
         }),
         selectedItem: type,
-        items: <_Type,RadioSliderItem>{
+        items: const <_Type,RadioSliderItem>{
           _Type.coin : RadioSliderItem(
             icon: Icon(Icons.check_circle),
             title: Text("coin"),

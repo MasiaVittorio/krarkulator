@@ -1,102 +1,106 @@
-import 'package:krarkulator/data/widgets.dart';
+// import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
+import 'package:krarkulator/widgets/stage/pages/all.dart';
 
 class KrCollapsed extends StatelessWidget {
   const KrCollapsed({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final errorColor = Theme.of(context).colorScheme.error;
     final logic = Logic.of(context);
-    final error = TextStyle(color: Theme.of(context).colorScheme.error);
     final stage = Stage.of<KrPage,dynamic>(context)!;
 
+    return logic.graveyard.build((_, graveyard) => 
+      logic.hand.build((_, hand) => 
+      logic.treasures.build((_, treasures) => 
+      logic.manaPool.build((_, pool) => 
+      logic.selectedSpellName.build((_, spellName){
 
-    return logic.automatic.build((_, automatic)
-    => logic.canLoop.build((_, canLoop) 
-    => logic.zone.build((_, zone)
-    => logic.mana.build((_, mana)
-    => logic.treasures.build((_, treasures)
-    => logic.spell.build((_, spell) 
-    => logic.canCast.build((_, canCast){
+        final object = logic.getSpellOrMessage(
+          pool: pool, 
+          spellName: spellName, 
+          treasures: treasures, 
+          hand: hand, 
+          graveyard: graveyard,
+        );
 
-      const Widget leading = Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: Icon(ManaIcons.instant),
-      );
-      final Widget title = AnimatedText(canCast 
-        ? (logic.shouldLoop ? "Keep recasting" : "Cast once")
-        : "Can't cast spell"
-      ); 
-      final Widget? subTitle = canCast 
-        ? (logic.shouldLoop 
-          ? Text("Until no bounce or ${logic.maxActions.value} actions")
-          : null) 
-        : (mana + treasures < spell.manaCost 
-          ? Text("Missing mana", style: error,)
-          : (!(zone == Zone.hand) 
-            ? Text("Spell out of hand", style: error,)
-            : null));
-      final VoidCallback? action = canCast ? (){
-        if(logic.shouldLoop) 
-          logic.keepCasting(
-            forHowManyFlips: logic.maxActions.value,
-            stage: stage,
-          );
-        else {
-          logic.cast(automatic: false);
-          stage.mainPagesController.goToPage(KrPage.triggers);
+        late final CastError? error; 
+        late final Spell? spell;
+        if(object is CastError){
+          error = object;
+          spell = null;
+        } else if(object is Spell){
+          spell = object;
+          error = null;
+        } else {
+          assert(false); // unreachable
         }
-      } : null;
-      final Widget tile = Container(
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        height: stage.dimensionsController.dimensions.value.collapsedPanelSize,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            leading,
-            Expanded(child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                title,
-                AnimatedListed(
-                  listed: subTitle != null,
-                  child: subTitle ?? Container(),
-                ),
-              ],
-            ),),
-          ],
-        ),
-      );
 
-      final Widget toggle = ExtraButtonToggle(
-        iconOff: McIcons.gesture_tap,
-        icon: Icons.repeat, 
-        text: automatic ? "automatic" : "manual", 
-        onChanged: (v){
-          if(canLoop == false) logic.automatic.setDistinct(false);
-          else logic.automatic.setDistinct(v);
-        },
-        value: automatic,
-      );
+        if(error != null){
+          return SimpleTile(
+            title: Text(
+              error.message, 
+              style: TextStyle(color: errorColor), 
+            ),
+            leading: Icon(Icons.warning_amber_rounded, color: errorColor,),
+            onTap: () => logic.solveError(error!, stage),
+          );
+        } else if(spell != null){
+          return SimpleTile(
+            title: Text(
+              'Cast "${spell.name}"', 
+            ),
+            leading: const Icon(ManaIcons.instant),
+            onTap: () {
+              final canLoop = logic.board.value.triggersFrom.krarks > 1;
+              if(!canLoop) {
+                logic.tryToCastAndRefresh(spell!);
+              } else {
+                final n = logic.maxNumberOfActions.value; 
+                stage.showAlert(
+                  AlternativesAlert(
+                    alternatives: [
+                      Alternative(
+                        title: "Auto-loop casts", 
+                        icon: Icons.refresh_rounded, 
+                        action: (){
+                          final s = logic.startLoop();
+                          logic.refreshUI();
+                          stage.closePanelCompletely();
+                          stage.showSnackBar(StageSnackBar(
+                            title: Text(s),
+                            secondary: IconButton(
+                              icon: const Text("log"),
+                              onPressed: () => stage.showAlert(
+                                const LogsAlert(), 
+                                size: 500,
+                              ),
+                            ),
+                          ));
+                        },
+                      ),
+                      Alternative(
+                        title: "Cast once", 
+                        icon: ManaIcons.instant,
+                        action: () => logic.tryToCastAndRefresh(spell!),
+                        autoClose: true,
+                      ),
+                    ], 
+                    label: "You can loop casts until no bounce or $n actions",
+                    twoLinesLabel: true,
+                  ),
+                  size: AlternativesAlert.twoLinesheightCalc(2),
+                );
+              }
+            },
+          );
+        } else {
+          assert(false);
+          return Container();
+        }
+      },)))),
+    );
 
-      return Row(children: [
-        Expanded(child: InkResponse(
-          onTap: action,
-          child: tile,
-        ),),
-        if(canLoop) ...<Widget>[
-          KrWidgets.verticalDivider,
-          Container(
-            alignment: Alignment.center,
-            width: 100,
-            child: toggle
-          ),
-        ],
-      ],);
-    }
-    )))))));
   }
 }

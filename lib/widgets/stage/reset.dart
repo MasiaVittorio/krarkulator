@@ -16,7 +16,7 @@ class ResetButton extends StatelessWidget {
       child: IgnorePointer(
         ignoring: opened,
         child: IconButton(
-          icon: Icon(Icons.refresh),
+          icon: const Icon(Icons.refresh),
           onPressed: () => stage.showAlert(
             ConfirmAlert(
               warningText: "Reset all values?",

@@ -12,8 +12,8 @@ class KrarkStage extends StatelessWidget {
     body: const KrBody(), 
     collapsedPanel: const KrCollapsed(), 
     extendedPanel: const KrExtended(), 
-    topBarContent: StageTopBarContent(
-      title: const StageTopBarTitle(
+    topBarContent: const StageTopBarContent(
+      title: StageTopBarTitle(
         panelTitle: "Krarkulator",
       ),
       secondary: ResetButton(),
@@ -25,12 +25,12 @@ class KrarkStage extends StatelessWidget {
     jsonToPanelPage: (j) => PanelPages.fromName(j)!,
     panelPageToJson: (p) => p.name,
 
-    panelPages: StagePagesData<PanelPage>.nullable(
+    panelPages: const StagePagesData<PanelPage>.nullable(
       defaultPage: PanelPage.spells,
-      orderedPages: const [
+      orderedPages: [
         PanelPage.dice, PanelPage.spells, PanelPage.themes, PanelPage.info,
       ],
-      pagesData: const <PanelPage,StagePage>{
+      pagesData: <PanelPage,StagePage>{
         PanelPage.spells: StagePage(
           icon: McIcons.cards,
           unselectedIcon: McIcons.cards_outline,
@@ -55,28 +55,31 @@ class KrarkStage extends StatelessWidget {
 
     jsonToMainPage: (j) => KrPages.fromName(j)!,
     mainPageToJson: (p) => p.name,
-    mainPages: StagePagesData<KrPage>.nullable(
+    mainPages: const StagePagesData<KrPage>.nullable(
       defaultPage: KrPage.board,
-      orderedPages: const [
+      orderedPages: [
         KrPage.board, KrPage.spell, KrPage.status, KrPage.triggers
       ],
-      pagesData: const <KrPage,StagePage>{
+      pagesData: <KrPage,StagePage>{
         KrPage.board: StagePage(
           icon: ManaIcons.creature,
           name: "Board",
+          longName: "Board & Effects",
         ),
         KrPage.triggers: StagePage(
           icon: McIcons.cards,
           unselectedIcon: McIcons.cards_outline,
-          name: "Triggers",
+          name: "Stack",
         ),
         KrPage.spell: StagePage(
           icon: ManaIcons.sorcery,
           name: "Spell",
+          longName: "Spells",
         ),
         KrPage.status: StagePage(
           icon: ManaIcons.c,
           name: "Status",
+          longName: "Resources & Info",
         ),
       },
     ),
@@ -84,7 +87,7 @@ class KrarkStage extends StatelessWidget {
     stageTheme: StageThemeData.nullable(
       accentSelectedPage: true,
       pandaOpenedPanelNavBar: true,
-      brightness: StageBrightnessData.nullable(
+      brightness: const StageBrightnessData.nullable(
         brightness: Brightness.light,
         autoDark: false,
         autoDarkMode: AutoDarkMode.timeOfDay,

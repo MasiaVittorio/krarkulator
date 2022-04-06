@@ -15,7 +15,7 @@ class ExtraButtonToggle extends StatelessWidget {
   final double? iconSize;
   final bool twoLines;
 
-  ExtraButtonToggle({
+  const ExtraButtonToggle({
     required this.value,
     required this.onChanged,
     required this.icon,
@@ -25,7 +25,8 @@ class ExtraButtonToggle extends StatelessWidget {
     this.colorOff,
     this.iconSize,
     this.twoLines = false,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class ExtraButtonToggle extends StatelessWidget {
     final iconColorOff = theme.colorScheme.onSurface.withOpacity(0.55);
 
     return IconTheme.merge(
-      data: IconThemeData(opacity: 1.0),
+      data: const IconThemeData(opacity: 1.0),
       child: AnimatedDouble(
         value: value ? 1.0 : 0.0, 
         duration: const Duration(milliseconds: 300),

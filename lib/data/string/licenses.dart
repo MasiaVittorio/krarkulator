@@ -1,13 +1,13 @@
 class CSLicenses {
-  static const String flutter = "CounterSpell is made with Flutter";
+  static const String flutter = "Krarkulator is made with Flutter";
 
-  static const String wizardFanContentPolicy = r"CounterSpell is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.";
+  static const String wizardFanContentPolicy = r"The Krarkulator is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.";
 
-  static const String scryfallImagePolicy =  r"All the M:TG-related information, icons, and card images found within CounterSpell are copyrighted by Wizards of the Coast.";
+  static const String scryfallImagePolicy =  r"All the M:TG-related information, icons, and card images found within the Krarkulator are copyrighted by Wizards of the Coast.";
 
   static const String iconsLicenses =  r'The mana icons and M:tG set icons fonts are used under the SIL OFL 1.1 license, are made by Andrew Gioia and are available on Github ("Mana", and "Keyrune")';
 
-  static const String openSourceDisclaimer = r"The source code of CounterSpell is available on GitHub under the GNU GPLv3 License.";
+  static const String openSourceDisclaimer = r"The source code of the Krarkulator is available on GitHub under the GNU GPLv3 License.";
 
   static const String mit = r"""
 MIT License

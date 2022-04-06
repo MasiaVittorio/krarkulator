@@ -11,14 +11,15 @@ class ExtraButtons extends StatelessWidget {
     this.margin = defaultMargin,
     this.separate = true,
     this.flexes,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final List<Widget> children;
   final EdgeInsets? margin;
   final bool separate;
   final List<int>? flexes;
 
-  static const defaultMargin = const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
+  static const defaultMargin = EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 6.0);
   static const Widget divider = ExtraButtonDivider();
 
   @override
@@ -39,7 +40,9 @@ class ExtraButtons extends StatelessWidget {
 }
 
 class ExtraButtonDivider extends StatelessWidget {
-  const ExtraButtonDivider();
+  
+  const ExtraButtonDivider({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -92,8 +95,9 @@ class ExtraButton extends StatelessWidget {
     this.borderRadius,
     this.overrideTextColor,
     this.expandVertically = false,
-  });
-
+    Key? key,
+  }) : super(key: key);
+  
   static const double _iconDimension = 38.0;
 
   @override
@@ -117,10 +121,9 @@ class ExtraButton extends StatelessWidget {
                 : customCircleColor ?? theme.colorScheme.onSurface.withOpacity(0.1),
             ),
             child: Padding(
-              padding: this.iconPadding,
-              child: customIcon == null 
-                ? Icon(icon, size: iconSize, color: overrideTextColor,)
-                : customIcon,
+              padding: iconPadding,
+              child: customIcon 
+                ?? Icon(icon, size: iconSize, color: overrideTextColor,),
             ),
           ),
         ),
@@ -129,7 +132,7 @@ class ExtraButton extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             height: twoLines ? 36 : 24,
-            child: this.forceExternalSize 
+            child: forceExternalSize 
               ? AutoSizeText(
                 text,
                 maxLines: text.split("\n").length,

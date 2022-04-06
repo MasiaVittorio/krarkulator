@@ -1,4 +1,3 @@
-import 'package:krarkulator/data/widgets.dart';
 import 'package:krarkulator/everything.dart';
 
 class ThemePanel extends StatelessWidget {

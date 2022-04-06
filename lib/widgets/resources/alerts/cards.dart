@@ -19,6 +19,7 @@ class KeyCardsAlert extends StatelessWidget {
     "Storm Kiln Artist": AssetImage(_dirCards + "Storm_Kiln_Artist.jpg"),
     "Tavern Scoundrel": AssetImage(_dirCards + "Tavern_Scoundrel.jpg"),
     "Birgi, God of Storytelling": AssetImage(_dirCards + "Birgi_God_of_Storytelling.jpg"),
+    "Twinning Staff": AssetImage(_dirCards + "Twinning_Staff.jpg"),
   };
   static const arts = <String,ImageProvider>{
     "Birgi, God of Storytelling": AssetImage(_dirArts + "Birgi_God_of_Storytelling.jpg"),
@@ -30,17 +31,18 @@ class KeyCardsAlert extends StatelessWidget {
     "Storm Kiln Artist": AssetImage(_dirArts + "Storm_Kiln_Artist.jpg"),
     "Tavern Scoundrel": AssetImage(_dirArts + "Tavern_Scoundrel.jpg"),
     "Veyran, Voice of Duality": AssetImage(_dirArts + "Veyran_Voice_of_Duality.jpg"),
+    "Twinning Staff": AssetImage(_dirArts + "Twinning_Staff.jpg"),
   }; 
-  static const subtitles = <String,String>{
-    "Harmonic Prodigy": "(Equivalent to veyran)",
-  };
+  // static const subtitles = <String,String>{
+  //   "Harmonic Prodigy": "(Equivalent to veyran)",
+  // };
 
 
   @override
   Widget build(BuildContext context) {
     final stage = Stage.of(context)!;
     final theme = Theme.of(context);
-    final textColor = Colors.white;
+    const textColor = Colors.white;
     // final imageOpacity = theme.brightness.isDark ? 0.5 : 0.7;
     final imageColor = (theme.brightness.isDark 
       ? theme.canvasColor : Colors.black).withOpacity(0.5);
@@ -56,7 +58,7 @@ class KeyCardsAlert extends StatelessWidget {
                   image: DecorationImage(
                     image: arts[e.key]!,
                     fit: BoxFit.cover,
-                    alignment: Alignment(0, -0.5),
+                    alignment: const Alignment(0, -0.5),
                     colorFilter: ColorFilter.mode(
                       imageColor, 
                       BlendMode.srcOver, 
@@ -67,9 +69,10 @@ class KeyCardsAlert extends StatelessWidget {
                 child: Material(
                   type: MaterialType.transparency,
                   child: ListTile(
-                    title: Text(e.key, style: TextStyle(color: textColor),),
-                    subtitle: Text(
-                      subtitles[e.key] ?? "",
+                    title: Text(e.key, style: const TextStyle(color: textColor),),
+                    subtitle: const Text(
+                      // subtitles[e.key] ?? "",
+                      '',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
                         color: textColor,
