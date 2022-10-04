@@ -7,31 +7,31 @@ class KeyCardsAlert extends StatelessWidget {
   final double screenWidth;
 
   static const _dir = "assets/images/";
-  static const _dirCards = _dir + "cards/";
-  static const _dirArts = _dir + "arts/";
+  static const _dirCards = "${_dir}cards/";
+  static const _dirArts = "${_dir}arts/";
   static const cards = <String,ImageProvider>{
-    "Krark, the Thumbless": AssetImage(_dirCards + "Krark_the_Thumbless.jpg"),
-    "Sakashima of a Thousand Faces": AssetImage(_dirCards + "Sakashima_of_a_Thousand_Faces.jpg"),
-    "Krark's Thumb": AssetImage(_dirCards + "Krarks_Thumb.jpg"),
-    "Bonus Round": AssetImage(_dirCards + "Bonus_Round.jpg"),
-    "Veyran, Voice of Duality": AssetImage(_dirCards + "Veyran_Voice_of_Duality.jpg"),
-    "Harmonic Prodigy": AssetImage(_dirCards + "Harmonic_Prodigy.jpg"),
-    "Storm Kiln Artist": AssetImage(_dirCards + "Storm_Kiln_Artist.jpg"),
-    "Tavern Scoundrel": AssetImage(_dirCards + "Tavern_Scoundrel.jpg"),
-    "Birgi, God of Storytelling": AssetImage(_dirCards + "Birgi_God_of_Storytelling.jpg"),
-    "Twinning Staff": AssetImage(_dirCards + "Twinning_Staff.jpg"),
+    "Krark, the Thumbless": AssetImage("${_dirCards}Krark_the_Thumbless.jpg"),
+    "Sakashima of a Thousand Faces": AssetImage("${_dirCards}Sakashima_of_a_Thousand_Faces.jpg"),
+    "Krark's Thumb": AssetImage("${_dirCards}Krarks_Thumb.jpg"),
+    "Bonus Round": AssetImage("${_dirCards}Bonus_Round.jpg"),
+    "Veyran, Voice of Duality": AssetImage("${_dirCards}Veyran_Voice_of_Duality.jpg"),
+    "Harmonic Prodigy": AssetImage("${_dirCards}Harmonic_Prodigy.jpg"),
+    "Storm Kiln Artist": AssetImage("${_dirCards}Storm_Kiln_Artist.jpg"),
+    "Tavern Scoundrel": AssetImage("${_dirCards}Tavern_Scoundrel.jpg"),
+    "Birgi, God of Storytelling": AssetImage("${_dirCards}Birgi_God_of_Storytelling.jpg"),
+    "Twinning Staff": AssetImage("${_dirCards}Twinning_Staff.jpg"),
   };
   static const arts = <String,ImageProvider>{
-    "Birgi, God of Storytelling": AssetImage(_dirArts + "Birgi_God_of_Storytelling.jpg"),
-    "Bonus Round": AssetImage(_dirArts + "Bonus_Round.jpg"),
-    "Harmonic Prodigy": AssetImage(_dirArts + "Harmonic_Prodigy.jpg"),
-    "Krark, the Thumbless": AssetImage(_dirArts + "Krark_the_Thumbless.jpg"),
-    "Krark's Thumb": AssetImage(_dirArts + "Krarks_Thumb.jpg"),
-    "Sakashima of a Thousand Faces": AssetImage(_dirArts + "Sakashima_of_a_Thousand_Faces.jpg"),
-    "Storm Kiln Artist": AssetImage(_dirArts + "Storm_Kiln_Artist.jpg"),
-    "Tavern Scoundrel": AssetImage(_dirArts + "Tavern_Scoundrel.jpg"),
-    "Veyran, Voice of Duality": AssetImage(_dirArts + "Veyran_Voice_of_Duality.jpg"),
-    "Twinning Staff": AssetImage(_dirArts + "Twinning_Staff.jpg"),
+    "Birgi, God of Storytelling": AssetImage("${_dirArts}Birgi_God_of_Storytelling.jpg"),
+    "Bonus Round": AssetImage("${_dirArts}Bonus_Round.jpg"),
+    "Harmonic Prodigy": AssetImage("${_dirArts}Harmonic_Prodigy.jpg"),
+    "Krark, the Thumbless": AssetImage("${_dirArts}Krark_the_Thumbless.jpg"),
+    "Krark's Thumb": AssetImage("${_dirArts}Krarks_Thumb.jpg"),
+    "Sakashima of a Thousand Faces": AssetImage("${_dirArts}Sakashima_of_a_Thousand_Faces.jpg"),
+    "Storm Kiln Artist": AssetImage("${_dirArts}Storm_Kiln_Artist.jpg"),
+    "Tavern Scoundrel": AssetImage("${_dirArts}Tavern_Scoundrel.jpg"),
+    "Veyran, Voice of Duality": AssetImage("${_dirArts}Veyran_Voice_of_Duality.jpg"),
+    "Twinning Staff": AssetImage("${_dirArts}Twinning_Staff.jpg"),
   }; 
   // static const subtitles = <String,String>{
   //   "Harmonic Prodigy": "(Equivalent to veyran)",

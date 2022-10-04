@@ -12,7 +12,7 @@ class KrBody extends StatelessWidget {
     
     return StageBody<KrPage>(
       customBackground: (theme) => theme.canvasColor,
-      children: {
+      children: const {
         KrPage.board: BoardBody(),
         KrPage.spell: SpellBody(),
         KrPage.status: StatusBody(),

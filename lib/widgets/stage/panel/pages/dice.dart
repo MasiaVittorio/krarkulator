@@ -10,7 +10,7 @@ class RandomPanel extends StatefulWidget {
   }): super(key: key);
 
   @override
-  _RandomPanelState createState() => _RandomPanelState();
+  State<RandomPanel> createState() => _RandomPanelState();
 }
 
 enum _Type {

@@ -90,18 +90,18 @@ class StackWidgetTriggerWithSpell extends StatelessWidget {
     title: title, 
     subTitle: typeline, 
     indexPlusOne: index + 1, 
-    outOf: outOf, 
-    children: [
-      Text(link, style: const TextStyle(fontStyle: FontStyle.italic),),
-      const SizedBox(height: 4,),
-      Text(description),
-    ],
+    outOf: outOf,
     image: Image.asset(
       from.art,
       alignment: from.alignment,
       fit: BoxFit.cover,
     ),
-    artistCredit: from.artist,
+    artistCredit: from.artist, 
+    children: [
+      Text(link, style: const TextStyle(fontStyle: FontStyle.italic),),
+      const SizedBox(height: 4,),
+      Text(description),
+    ],
   );
 
 }

@@ -74,22 +74,22 @@ class QuickReplacement extends ReplacementEffect {
   late final bool _gotTails;
 
   QuickReplacement(int numberOfCoins, Random rng): super(numberOfCoins) {
-    bool _h = false;
-    bool _t = false;
+    bool h = false;
+    bool t = false;
     for(int i=1; i<=numberOfCoins; ++i){
       if(rng.nextBool()){
-        _h = true;
+        h = true;
       } else {
-        _t = true;
+        t = true;
       }
-      if(_h && _t){
+      if(h && t){
         _gotHeads = true;
         _gotTails = true;
         return;
       }
     }
-    _gotHeads = _h;
-    _gotTails = _t;
+    _gotHeads = h;
+    _gotTails = t;
   }
 
   QuickReplacement.fromSaved(this._gotHeads, this._gotTails, int n): super(n);

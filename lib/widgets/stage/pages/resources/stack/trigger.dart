@@ -50,14 +50,14 @@ class StackWidgetTrigger extends StatelessWidget {
       title: trigger.from.longName, 
       subTitle: "Triggered Ability", 
       indexPlusOne: index + 1, 
-      outOf: outOf, 
-      children: [content],
+      outOf: outOf,
       image: Image.asset(
         trigger.from.art,
         alignment: trigger.from.alignment,
         fit: BoxFit.cover,
       ),
-      artistCredit: trigger.from.artist,
+      artistCredit: trigger.from.artist, 
+      children: [content],
     );
   }
 }

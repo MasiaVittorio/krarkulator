@@ -46,6 +46,7 @@ class SliderPicker extends StatelessWidget {
         }
       },
       child: NotificationListener(
+        onNotification: _onIntegerNotification,
         child: SizedBox(
           height: itemExtent * visibleItems,
           width: width,
@@ -82,7 +83,6 @@ class SliderPicker extends StatelessWidget {
             },
           ),
         ),
-        onNotification: _onIntegerNotification,
       ),
     );
   }

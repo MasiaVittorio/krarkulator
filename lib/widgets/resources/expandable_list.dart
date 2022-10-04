@@ -79,6 +79,9 @@ class _ExpandableListState extends State<ExpandableList> {
       return ConstrainedBox(
         constraints: constraints,
         child: AnimatedExpandeds(
+          flexesCollapsed: minFlexes, 
+          flexesExpanded: maxFlexes, 
+          index: index,
           children: [
             for(int i=0; i < items.length; ++i)
               EasyCrossFade(
@@ -102,10 +105,7 @@ class _ExpandableListState extends State<ExpandableList> {
                     bottom: padding,
                   ),
               ),
-          ], 
-          flexesCollapsed: minFlexes, 
-          flexesExpanded: maxFlexes, 
-          index: index,
+          ],
         ),
       );
     });

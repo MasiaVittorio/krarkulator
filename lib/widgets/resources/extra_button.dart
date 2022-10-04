@@ -27,8 +27,8 @@ class ExtraButtons extends StatelessWidget {
     final expanded = <Widget>[
       for(int i=0; i<children.length; ++i)
         Expanded(
-          child: children[i],
           flex: (flexes?.checkIndex(i) ?? false) ? flexes![i] : 1,
+          child: children[i],
         ),
     ];
 

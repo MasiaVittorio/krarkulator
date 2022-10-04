@@ -22,7 +22,7 @@ class KRActions {
   }
 
   static void mailMe([String body = ""]) async {
-    _launchUrl(KRUris.mailAction + "&body=$body");
+    _launchUrl("${KRUris.mailAction}&body=$body");
   }
 
   static void chatWithMe() async {

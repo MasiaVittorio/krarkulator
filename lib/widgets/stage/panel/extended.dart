@@ -8,7 +8,7 @@ class KrExtended extends StatelessWidget {
   Widget build(BuildContext context) {
     return StageExtendedPanel<PanelPage>(
       customBackground: (theme) => theme.canvasColor,
-      children: {
+      children: const {
         PanelPage.dice: RandomPanel(),
         PanelPage.spells: SpellsPanel(),
         PanelPage.themes: ThemePanel(),

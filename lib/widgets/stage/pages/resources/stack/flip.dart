@@ -22,7 +22,19 @@ class ReplacementChild extends StatelessWidget {
         : "$n coin flips (${canBoth ? 'mixed' : canCopy ? 'Only Heads' : 'Only Tails'})", 
       subTitle: n > 1 ? "Replacement Effect — Mid Resolution" : "Effect — Mid Resolution", 
       indexPlusOne: null, 
-      outOf: null, 
+      outOf: null,
+      image: Image.asset(
+        singleFlip 
+          ? "assets/images/arts/Tricksters_Talisman.jpg"
+          : BoardElement.thumb.art,
+        fit: BoxFit.cover,
+        alignment: singleFlip
+          ? const Alignment(0, -1)
+          : BoardElement.thumb.alignment,
+      ),
+      artistCredit: singleFlip 
+        ? "Sam White"
+        : BoardElement.thumb.artist, 
       children: [
         if(n == 1) ListTile(
           title: Text("You flipped ${canCopy ? 'Heads' : 'Tails'}"),
@@ -37,18 +49,6 @@ class ReplacementChild extends StatelessWidget {
           if(canBounce) ResultTile(false, replacement: replacement),
         ]
       ],
-      image: Image.asset(
-        singleFlip 
-          ? "assets/images/arts/Tricksters_Talisman.jpg"
-          : BoardElement.thumb.art,
-        fit: BoxFit.cover,
-        alignment: singleFlip
-          ? const Alignment(0, -1)
-          : BoardElement.thumb.alignment,
-      ),
-      artistCredit: singleFlip 
-        ? "Sam White"
-        : BoardElement.thumb.artist,
     );
   }
 

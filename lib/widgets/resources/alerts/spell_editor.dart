@@ -85,6 +85,7 @@ class _SpellEditorState extends State<SpellEditor> {
         ? "Edit spell" 
         : "New spell", 
       customBackground: (theme) => theme.canvasColor,
+      bottom: bottom,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -105,7 +106,6 @@ class _SpellEditorState extends State<SpellEditor> {
           KrWidgets.height15,
         ],
       ),
-      bottom: bottom,
     );
   }
 

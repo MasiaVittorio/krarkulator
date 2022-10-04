@@ -275,6 +275,7 @@ class ManaPool {
 
   late Map<MtgColor?, int> pool;
 
+  // ignore: no_leading_underscores_for_local_identifiers
   ManaPool([Map<MtgColor?, int>? _pool]){
     pool = _pool ?? <MtgColor?,int>{
       MtgColor.w: 0,
