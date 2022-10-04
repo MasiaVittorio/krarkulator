@@ -2,19 +2,19 @@ import 'package:krarkulator/everything.dart';
 import 'package:krarkulator/widgets/stage/pages/all.dart';
 
 class SpellsPanel extends StatelessWidget {
-  const SpellsPanel({ Key? key }) : super(key: key);
+  const SpellsPanel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logic = Logic.of(context);
     final stage = Stage.of(context)!;
 
-    return logic.spellBook.build((_, _book) => ListView(
+    return logic.spellBook.build((_, book) => ListView(
       physics: stage.panelScrollPhysics,
       children: <Widget>[
         const PanelTitle("Saved Spells"),
 
-        for(final spell in _book.values)
+        for(final spell in book.values)
           SpellTile(spell),
 
         KrWidgets.divider,
@@ -27,14 +27,14 @@ class SpellsPanel extends StatelessWidget {
             size: SpellEditor.height,
           ),
         ),
-      ],
-    ),);
+      ],),
+    );
   }
 }
 
 class SpellTile extends StatelessWidget {
-
-  const SpellTile(this.spell, {
+  const SpellTile(
+    this.spell, {
     Key? key,
   }) : super(key: key);
 
@@ -46,18 +46,18 @@ class SpellTile extends StatelessWidget {
     final stage = Stage.of(context)!;
 
     void _edit() => stage.showAlert(
-      SpellEditor(
-        initialSpell: spell,
-        onConfirm: (newSpell) => logic.newSpellToHand(
-          newSpell, 
-          spell.name, 
-          null,
-        ),
-        alreadySavedSpells: {...logic.spellBook.value.keys},
-      ),
-      replace: true,
-      size: SpellEditor.height,
-    );
+          SpellEditor(
+            initialSpell: spell,
+            onConfirm: (newSpell) => logic.newSpellToHand(
+              newSpell,
+              spell.name,
+              null,
+            ),
+            alreadySavedSpells: {...logic.spellBook.value.keys},
+          ),
+          replace: true,
+          size: SpellEditor.height,
+        );
 
     return SimpleTile(
       title: Text(spell.name),
@@ -76,25 +76,24 @@ class SpellTile extends StatelessWidget {
         logic.selectedSpellName.set(spell.name);
       },
       onLongPress: () => stage.showAlert(
-        AlternativesAlert(
-          alternatives: [
-            Alternative(
-              title: "Edit", 
-              icon: Icons.edit_outlined, 
-              action: _edit,
-            ),
-            Alternative(
-              title: "Delete", 
-              icon: Icons.delete_forever_outlined, 
-              action: () => logic.deleteFromSavedSpells(spell.name),
-              color: KRColors.delete,
-              autoClose: true,
-            ),
-          ], 
-          label: "Saved spell: ${spell.name}",
-        ),
-        size: AlternativesAlert.heightCalc(2)
-      ),
+          AlternativesAlert(
+            alternatives: [
+              Alternative(
+                title: "Edit",
+                icon: Icons.edit_outlined,
+                action: _edit,
+              ),
+              Alternative(
+                title: "Delete",
+                icon: Icons.delete_forever_outlined,
+                action: () => logic.deleteFromSavedSpells(spell.name),
+                color: KRColors.delete,
+                autoClose: true,
+              ),
+            ],
+            label: "Saved spell: ${spell.name}",
+          ),
+          size: AlternativesAlert.heightCalc(2)),
     );
   }
 }
