@@ -10,8 +10,8 @@ class KrBody extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     
-    return const StageBody<KrPage>(
-      canvasBackground: true,
+    return StageBody<KrPage>(
+      customBackground: (theme) => theme.canvasColor,
       children: {
         KrPage.board: BoardBody(),
         KrPage.spell: SpellBody(),

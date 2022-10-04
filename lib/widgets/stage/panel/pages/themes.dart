@@ -4,9 +4,9 @@ class ThemePanel extends StatelessWidget {
   const ThemePanel({ Key? key }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start, 
-    children: const <Widget>[
+  Widget build(BuildContext context) => ListView(
+      physics: Stage.of(context)!.panelScrollPhysics,
+      children:  const <Widget>[
       PanelTitle("Theme customization"),
       SubSection(<Widget>[
         SectionTitle("Colors"),

@@ -84,7 +84,7 @@ class _SpellEditorState extends State<SpellEditor> {
       wouldOverride 
         ? "Edit spell" 
         : "New spell", 
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

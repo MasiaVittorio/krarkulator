@@ -10,8 +10,8 @@ class InfoPanel extends StatelessWidget {
     final stage = Stage.of(context)!;
     final query = MediaQuery.of(context);
     
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return ListView(
+      physics: stage.panelScrollPhysics,
       children: [
         const PanelTitle("Info"),
         SubSection([

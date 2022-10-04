@@ -9,9 +9,8 @@ class SpellsPanel extends StatelessWidget {
     final logic = Logic.of(context);
     final stage = Stage.of(context)!;
 
-    return logic.spellBook.build((_, _book) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    return logic.spellBook.build((_, _book) => ListView(
+      physics: stage.panelScrollPhysics,
       children: <Widget>[
         const PanelTitle("Saved Spells"),
 

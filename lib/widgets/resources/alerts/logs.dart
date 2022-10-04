@@ -11,7 +11,7 @@ class LogsAlert extends StatelessWidget {
     return HeaderedAlert(
       "Log", 
       alreadyScrollableChild: true,
-      canvasBackground: true,
+      customBackground: (theme) => theme.canvasColor,
       child: ListView.builder(
         itemCount: data.length,
         itemBuilder: (_, i) => Padding(
