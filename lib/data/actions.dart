@@ -3,22 +3,33 @@ import 'package:krarkulator/everything.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class KRActions {
-  static void _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+  static void _launchUrl(String url, {LaunchMode launchMode = LaunchMode.externalApplication}) async {
+    if (await canLaunchUrl(
+      Uri.parse(url),
+    )) {
+      await launchUrl(
+        Uri.parse(url),
+        mode: launchMode,
+      );
     } else {
       debugPrint('Could not launch $url');
     }
   }
 
   static void reviewCounterSpell() async {
-    _launchUrl(Platform.isAndroid
+    _launchUrl(
+      Platform.isAndroid
         ? KRUris.counterSpellPlayStore
-        : KRUris.counterSpellAppStore);
+        : KRUris.counterSpellAppStore,
+      // launchMode: LaunchMode.externalNonBrowserApplication,
+    );
   }
 
   static void openVideoTutorial() async {
-    _launchUrl(KRUris.videoTutorial);
+    _launchUrl(
+      KRUris.videoTutorial,
+      // launchMode: LaunchMode.externalNonBrowserApplication,
+    );
   }
 
   static void mailMe([String body = ""]) async {
