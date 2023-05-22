@@ -94,7 +94,7 @@ class SpellTile extends StatelessWidget {
     final logic = Logic.of(context);
     final stage = Stage.of(context)!;
 
-    void _edit() => stage.showAlert(
+    void edit() => stage.showAlert(
       SpellEditor(
         initialSpell: spell,
         onConfirm: (newSpell) => logic.newSpellToHand(
@@ -108,13 +108,13 @@ class SpellTile extends StatelessWidget {
       size: SpellEditor.height,
     );
 
-    void _alternatives() => stage.showAlert(
+    void alternatives() => stage.showAlert(
       AlternativesAlert(
         alternatives: [
           Alternative(
             title: "Edit", 
             icon: Icons.edit_outlined, 
-            action: _edit,
+            action: edit,
           ),
           Alternative(
             title: "Move to graveyard", 
@@ -152,12 +152,12 @@ class SpellTile extends StatelessWidget {
       height: 64,
       onTap: () {
         if( logic.selectedSpellName.value == spell.name){
-          _alternatives();
+          alternatives();
         } else {
           logic.selectedSpellName.set(spell.name);
         }
       },
-      onLongPress: _alternatives,
+      onLongPress: alternatives,
     );
   }
 }

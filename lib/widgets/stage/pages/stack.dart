@@ -182,7 +182,7 @@ class _PagedStackState extends State<PagedStack> {
   void solve(Logic logic, StageData stage){
 
     final element = logic.stack.value.stack.last;
-    void _show() => stage.showSnackBar(
+    void show() => stage.showSnackBar(
       const LastAction(),
       pagePersistent: true,
       rightAligned: true,
@@ -198,25 +198,25 @@ class _PagedStackState extends State<PagedStack> {
           case BoardElement.artist:
             logic.solveArtistTrigger();
             logic.lastAction.set("+1 Treasure: now ${logic.treasures.value}");
-            _show();
+            show();
             break;
 
           case BoardElement.birgi:
             logic.solveBirgiTrigger();
             logic.lastAction.set("+1 {R}: now ${logic.manaPool.value.pool[MtgColor.r]}");
-            _show();
+            show();
             break;
 
           case BoardElement.bonusRound:
             final n = logic.solveBonusRoundTrigger();
             logic.lastAction.set("$n ${n>1 ? 'copies' : 'copy'} added to the stack");
-            _show();
+            show();
             break;
 
           case BoardElement.scoundrel:
             logic.solveScoundrelTrigger();
             logic.lastAction.set("+2 Treasure: now ${logic.treasures.value}");
-            _show();
+            show();
             break;
 
           case BoardElement.krark:

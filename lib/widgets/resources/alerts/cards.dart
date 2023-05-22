@@ -87,7 +87,7 @@ class KeyCardsAlert extends StatelessWidget {
                 ),
               ),
           ].part(2))) Row(children: [
-            for(final element in couple!) Expanded(child: element),
+            for(final element in couple) Expanded(child: element),
           ],),
         ],
       )),

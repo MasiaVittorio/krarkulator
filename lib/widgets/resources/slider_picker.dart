@@ -30,8 +30,8 @@ class SliderPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
-    TextStyle defaultStyle = themeData.textTheme.bodyText2!;
-    TextStyle selectedStyle = themeData.textTheme.headline5!.copyWith(
+    TextStyle defaultStyle = themeData.textTheme.bodyMedium!;
+    TextStyle selectedStyle = themeData.textTheme.headlineSmall!.copyWith(
       color: RightContrast(themeData).onCanvas,
     );
 

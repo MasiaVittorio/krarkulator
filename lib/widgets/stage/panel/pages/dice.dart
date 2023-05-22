@@ -100,7 +100,7 @@ class _RandomPanelState extends State<RandomPanel> with SingleTickerProviderStat
                 type == _Type.coin 
                   ? (result == 0 ? "Tails" : "Heads")
                   : "$result", 
-              style: theme.textTheme.headline4,
+              style: theme.textTheme.headlineMedium,
             ),
           ),
         ),),

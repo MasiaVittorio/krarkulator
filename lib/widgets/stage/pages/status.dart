@@ -53,7 +53,7 @@ class ManaPoolWidget extends StatelessWidget {
         for(final part in children.part(children.length == 4 ? 2 : 3))
           ...[
             Row(children: <Widget>[
-              for(final child in part ?? <Widget>[])
+              for(final child in part)
                 Expanded(child: child),
             ].separateWith(KrWidgets.width10, alsoFirstAndLast: true),),
             KrWidgets.height10,

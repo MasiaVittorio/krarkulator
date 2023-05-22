@@ -45,19 +45,19 @@ class SpellTile extends StatelessWidget {
     final logic = Logic.of(context);
     final stage = Stage.of(context)!;
 
-    void _edit() => stage.showAlert(
-          SpellEditor(
-            initialSpell: spell,
-            onConfirm: (newSpell) => logic.newSpellToHand(
-              newSpell,
-              spell.name,
-              null,
-            ),
-            alreadySavedSpells: {...logic.spellBook.value.keys},
-          ),
-          replace: true,
-          size: SpellEditor.height,
-        );
+    void edit() => stage.showAlert(
+      SpellEditor(
+        initialSpell: spell,
+        onConfirm: (newSpell) => logic.newSpellToHand(
+          newSpell,
+          spell.name,
+          null,
+        ),
+        alreadySavedSpells: {...logic.spellBook.value.keys},
+      ),
+      replace: true,
+      size: SpellEditor.height,
+    );
 
     return SimpleTile(
       title: Text(spell.name),
@@ -81,7 +81,7 @@ class SpellTile extends StatelessWidget {
               Alternative(
                 title: "Edit",
                 icon: Icons.edit_outlined,
-                action: _edit,
+                action: edit,
               ),
               Alternative(
                 title: "Delete",
