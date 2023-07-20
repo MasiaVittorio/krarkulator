@@ -205,8 +205,9 @@ class Board {
   }
 
   void reset() {
-    for(final e in BoardElement.values)
+    for(final e in BoardElement.values) {
       board[e] = 0;
+    }
   }
 
   static Board get emptyBoard => Board({
@@ -226,8 +227,11 @@ class Board {
 
   void solveSpell(Spell spell){
     for(final e in spell.boardProduct.entries){
-      if(e.value > 0) board[e.key] = howMany.element(e.key) + e.value;
-      else if(e.value == -1) board[e.key] = howMany.element(e.key) * 2;
+      if(e.value > 0) {
+        board[e.key] = howMany.element(e.key) + e.value;
+      } else if(e.value == -1) {
+        board[e.key] = howMany.element(e.key) * 2;
+      }
 
       if((board[e.key] ?? 0) > insaneNumberOfAnything) board[e.key] = insaneNumberOfAnything;
     }

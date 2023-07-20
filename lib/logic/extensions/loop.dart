@@ -46,8 +46,11 @@ extension KrLoops on Logic {
 
     } while (couldCast && currentLoopActions < maxNumberOfActions.value);
 
-    if(couldCast) return "${maxNumberOfActions.value} actions reached";
-    else return "Couldn't cast again";
+    if(couldCast) {
+      return "${maxNumberOfActions.value} actions reached";
+    } else {
+      return "Couldn't cast again";
+    }
   }
 
   bool _autoSolveTop(bool alreadyTriedToBounce){

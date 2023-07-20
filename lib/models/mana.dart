@@ -250,9 +250,11 @@ extension ManaOrder on Map<MtgColor?, int>{
   }
 
   bool get hasSomething {
-    for(final k in keys)
-      if((this[k] ?? 0) > 0)
+    for(final k in keys) {
+      if((this[k] ?? 0) > 0) {
         return true;
+    }
+      }
     return false;
   }
 
@@ -288,7 +290,9 @@ class ManaPool {
   }
 
   void empty() {
-    for (final c in MtgColor.values) pool[c] = 0;
+    for (final c in MtgColor.values) {
+      pool[c] = 0;
+    }
     pool[null] = 0;
   }
 

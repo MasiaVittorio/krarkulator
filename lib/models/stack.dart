@@ -136,7 +136,9 @@ class MtgStack {
   void addAll(Iterable<StackElement> l) => stack.addAll(l);
 
   void addMultiple(StackElement e, int n){
-    for(int i=1; i<=n; i++) stack.add(e);
+    for(int i=1; i<=n; i++) {
+      stack.add(e);
+    }
   }
   
   

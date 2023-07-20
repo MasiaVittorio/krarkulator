@@ -7,7 +7,7 @@ class ManaPoolEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: const [
+    return const Column(children: [
       Expanded(child: Center(child: ColorSelector())),
       KrWidgets.height10,
       SubSection([

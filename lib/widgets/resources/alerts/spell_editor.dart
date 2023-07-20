@@ -73,11 +73,14 @@ class _SpellEditorState extends State<SpellEditor> {
     && !widget.alreadySavedSpells.contains(nameCtrlr.text);
 
   bool get someElementMissing {
-    for(final e in BoardElement.values)
-      if(!boardProduct.containsKey(e))
+    for (final e in BoardElement.values) {
+      if (!boardProduct.containsKey(e)) {
         return true;
+      }
+    }
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return HeaderedAlert(
