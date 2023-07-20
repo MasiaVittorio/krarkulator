@@ -96,7 +96,8 @@ extension KrControls on Logic {
   }
 
   void counterThenRefresh(int index) {
-    if (index < stack.value.stack.length && index > 0) {
+    // TODO: investigate why I had index > 0 here, was it a blunder or was there a reason? why don't I comment my code ever? goddammit
+    if (index < stack.value.stack.length && index >= 0) {
       counterAt(index);
       stack.refresh();
       graveyard.refresh();
