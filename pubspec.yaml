@@ -45,17 +45,27 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.9.3"
+  flutter_launcher_icons: "0.13.1"
   flutter_lints: ^2.0.0
 
-flutter_icons:
+flutter_launcher_icons:
+  android: true
+  ios: true
   image_path: "assets/icon/icon.png"
-  image_path_android: "assets/icon/icon.png"
-  image_path_ios: "assets/icon/icon.png"
-  android: true # can specify file name here e.g. "ic_launcher"
-  ios: true # can specify file name here e.g. "My-Launcher-Icon"
-  adaptive_icon_background: "assets/icon/icon.png" # only available for Android 8.0 devices and above
+  adaptive_icon_background: "#2f343f" # only available for Android 8.0 devices and above
   adaptive_icon_foreground: "assets/icon/fully_transparent.png" # only available for Android 8.0 devices and above
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#2f343f"
+    theme_color: "#2f343f"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
